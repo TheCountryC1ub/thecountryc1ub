@@ -1,0 +1,13 @@
+# dependencies
+node_modules/
+
+# build output (Vercel builds this from source)
+dist/
+
+# large raw source video — the encoded public/bg.mp4 is what the site serves
+assets/video/*.mp4
+
+# local tooling / OS
+.claude/
+.DS_Store
+*.log
