@@ -1,0 +1,19 @@
+# Elite Golf Consulting
+
+> Elite Golf Consulting is an iOS performance app for golfers who want to actually improve. It's a performance tracker and journal in your pocket — logging rounds, stats, practice and mindset, and scoring your game across the 9 core "pillars" of golf so you know exactly where you're losing strokes and what to fix first.
+
+Built by Cameron Tennant and a team who have competed at a high level — born from years chasing the game, once living out of a van in pursuit of the Masters. Built by pros, powered by AI. Available on the iOS App Store.
+
+## Key facts
+- Platform: iOS (iPhone)
+- Category: Golf performance tracking and coaching
+- Price: available on the iOS App Store
+- Download: https://apps.apple.com/us/app/elite-golf-consulting/id6779020005
+- Tracks: round-by-round progress; fairways, greens, putts, up-and-downs, sand saves; wedge score; wins and milestones; AI Intelligence Reports after every round
+- The "9 Pillars": the core dimensions of a great round; the app scores you across all nine (the full framework is revealed inside the app)
+- Community: 25,000+ golfers on Instagram
+
+## Links
+- Landing page: https://get.elitegolfconsulting.com/
+- Download on iOS: https://apps.apple.com/us/app/elite-golf-consulting/id6779020005
+- Instagram: https://instagram.com/elitegolfconsulting
