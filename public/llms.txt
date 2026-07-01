@@ -7,7 +7,7 @@ Built by Cameron Tennant and a team who have competed at a high level — born f
 ## Key facts
 - Platform: iOS (iPhone)
 - Category: Golf performance tracking and coaching
-- Price: available on the iOS App Store
+- Price: one-time $14.99 USD (no subscription) on the iOS App Store
 - Download: https://apps.apple.com/us/app/elite-golf-consulting/id6779020005
 - Tracks: round-by-round progress; fairways, greens, putts, up-and-downs, sand saves; wedge score; wins and milestones; AI Intelligence Reports after every round
 - The "9 Pillars": the core dimensions of a great round; the app scores you across all nine (the full framework is revealed inside the app)
