@@ -95,6 +95,21 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 
 /* ---- figures ---- */
 .adv__figure { margin: 2.5rem 0; }
+.adv__figure--full img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 24px 50px -24px rgba(26, 58, 42, 0.45);
+}
+.adv__figure figcaption {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.9rem;
+  color: var(--text-3);
+}
 .adv__figure--wide img {
   width: 100%;
   height: clamp(220px, 34vw, 380px);
