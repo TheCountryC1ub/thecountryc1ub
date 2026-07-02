@@ -1,4 +1,11 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false
+  "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/blog/shooting-over-85-stop-grinding-drivers",
+      "destination": "/blog/shooting-over-85-hit-more-drivers",
+      "permanent": true
+    }
+  ]
 }
