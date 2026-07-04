@@ -18,8 +18,31 @@ if (existsSync(blogDir)) {
   }
 }
 
+// Google Analytics 4 — injected into the <head> of EVERY page (incl. future blog posts).
+const GA_ID = 'G-5KD888CEP2';
+const googleAnalytics = {
+  name: 'inject-ga4',
+  transformIndexHtml() {
+    return [
+      {
+        tag: 'script',
+        attrs: { async: true, src: `https://www.googletagmanager.com/gtag/js?id=${GA_ID}` },
+        injectTo: 'head',
+      },
+      {
+        tag: 'script',
+        children:
+          `window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}` +
+          `gtag('js',new Date());gtag('config','${GA_ID}');`,
+        injectTo: 'head',
+      },
+    ];
+  },
+};
+
 export default defineConfig({
   base: '/',
+  plugins: [googleAnalytics],
   build: {
     assetsInlineLimit: 0,
     chunkSizeWarningLimit: 1200,
