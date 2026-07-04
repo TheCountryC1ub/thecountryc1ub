@@ -6,6 +6,11 @@
       "source": "/blog/shooting-over-85-stop-grinding-drivers",
       "destination": "/blog/shooting-over-85-hit-more-drivers",
       "permanent": true
+    },
+    {
+      "source": "/blog/shooting-in-the-70s-mid-iron-range-rule",
+      "destination": "/blog/shooting-75-or-over-mid-iron-range-rule",
+      "permanent": true
     }
   ]
 }
