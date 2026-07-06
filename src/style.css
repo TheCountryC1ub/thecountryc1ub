@@ -953,6 +953,8 @@ em { font-style: italic; }
 .footer__links {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.4rem;
   font-size: 0.8rem;
 }
