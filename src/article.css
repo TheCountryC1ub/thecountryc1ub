@@ -108,3 +108,7 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 .postcard__title { font-family: var(--serif); font-size: 1.35rem; line-height: 1.2; color: var(--text); margin-bottom: 0.6rem; }
 .postcard__excerpt { font-size: 0.95rem; line-height: 1.6; color: var(--text-3); margin-bottom: 1rem; }
 .postcard__meta { margin-top: auto; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-4); }
+
+/* ---- site footer (same as homepage, on blog pages) ---- */
+.sitefoot { background: var(--green); margin-top: 3.5rem; padding: 0.2rem clamp(1.3rem, 5vw, 2rem) 2.4rem; }
+.sitefoot .footer { max-width: var(--maxw); margin: 0 auto; border-top: none; }
