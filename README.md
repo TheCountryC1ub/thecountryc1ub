@@ -34,3 +34,7 @@ This is a static Vite build. Vercel auto-detects it:
 
 - The scroll-scrubbed background video (`public/bg.mp4`) is desktop-only; touch devices show `public/poster.jpg`.
 - The rolling-golf-ball animation is desktop-only (≥1366px) and respects `prefers-reduced-motion`.
+
+
+---
+Related: [[EGC Hub]] · [[HANDOFF]] · [[tracking-pixel]]
