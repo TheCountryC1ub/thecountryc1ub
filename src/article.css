@@ -112,3 +112,13 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 /* ---- site footer (same as homepage, on blog pages) ---- */
 .sitefoot { background: var(--green); margin-top: 3.5rem; padding: 0.2rem clamp(1.3rem, 5vw, 2rem) 2.4rem; }
 .sitefoot .footer { max-width: var(--maxw); margin: 0 auto; border-top: none; }
+
+/* ---- partners page ---- */
+.partnerlist { max-width: 1080px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) clamp(1.3rem, 5vw, 2rem) 4rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(1.5rem, 3vw, 2.4rem); }
+.partnercard { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--white); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem 1.7rem; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+.partnercard:hover { transform: translateY(-4px); box-shadow: 0 28px 50px -26px rgba(26,58,42,0.4); }
+.partnercard__name { font-family: var(--serif); font-weight: 400; font-size: 1.5rem; line-height: 1.2; color: var(--text); margin-bottom: 0.35rem; }
+.partnercard__who { font-size: 0.66rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 0.9rem; }
+.partnercard__body { font-size: 0.95rem; line-height: 1.65; color: var(--text-3); margin-bottom: 1.2rem; }
+.partnercard__link { margin-top: auto; font-size: 0.85rem; letter-spacing: 0.04em; color: var(--green); }
+.partnercard:hover .partnercard__link { color: var(--gold-dim); }

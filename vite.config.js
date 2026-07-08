@@ -8,6 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const input = {
   main: resolve(__dirname, 'index.html'),
   story: resolve(__dirname, 'story.html'),
+  partners: resolve(__dirname, 'partners.html'),
 };
 
 // Auto-include every blog page — drop a blog/<slug>.html file and it ships.
