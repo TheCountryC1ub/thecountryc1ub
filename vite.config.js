@@ -43,6 +43,8 @@ const googleAnalytics = {
 // Meta (Facebook) Pixel — base PageView on every page, plus:
 //   • Lead        on any "Download on iOS" (App Store) click  → optimize ads for this
 //   • ViewContent when the visitor scrolls past 50%           → higher-volume warm-up event
+// Same click also fires GA4 add_to_cart (App Store click = the funnel's "add to cart" step;
+// value/currency set so it can be imported into Google Ads as a value-based conversion).
 const FB_ID = '27839343388989480';
 const metaPixel = {
   name: 'inject-meta-pixel',
@@ -53,7 +55,7 @@ const metaPixel = {
         children:
           `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');` +
           `fbq('init','${FB_ID}');fbq('track','PageView');` +
-          `document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="apps.apple.com"]');if(a&&window.fbq){fbq('track','Lead');}},true);` +
+          `document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="apps.apple.com"]');if(a){if(window.fbq){fbq('track','Lead');}if(window.gtag){gtag('event','add_to_cart',{currency:'USD',value:14.99,items:[{item_id:'elite-golf-consulting-app',item_name:'Elite Golf Consulting App',price:14.99,quantity:1}]});}}},true);` +
           `(function(){var fired=false;function onScroll(){if(fired)return;var el=document.documentElement;if((window.scrollY+window.innerHeight)/el.scrollHeight>0.5){fired=true;if(window.fbq)fbq('track','ViewContent');window.removeEventListener('scroll',onScroll);}}window.addEventListener('scroll',onScroll,{passive:true});})();`,
         injectTo: 'head',
       },
