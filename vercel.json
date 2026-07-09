@@ -1,6 +1,20 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "https://elite-golf-consulting.replit.app/admin"
+    },
+    {
+      "source": "/api/admin/:path*",
+      "destination": "https://elite-golf-consulting.replit.app/api/admin/:path*"
+    },
+    {
+      "source": "/api/push/:path*",
+      "destination": "https://elite-golf-consulting.replit.app/api/push/:path*"
+    }
+  ],
   "redirects": [
     {
       "source": "/blog/shooting-over-85-stop-grinding-drivers",
