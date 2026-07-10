@@ -465,98 +465,22 @@ em { font-style: italic; }
   margin-bottom: 2.4rem !important;
 }
 
-/* yardage book visual */
-.yardage {
+/* pillars photo visual */
+.pillars__photo {
   position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1.15fr;
-  max-width: 460px;
+  max-width: 420px;
   margin-inline: auto;
-  border-radius: 8px;
+  border-radius: 10px;
+  overflow: hidden;
   filter: drop-shadow(0 30px 50px rgba(26,58,42,0.28));
-  transform: rotate(-2deg);
   transition: transform 0.6s var(--ease);
 }
-.yardage:hover { transform: rotate(0deg) translateY(-4px); }
-.yardage__cover {
-  background:
-    linear-gradient(135deg, #4a3520 0%, #3a2817 60%, #2c1d10 100%);
-  border-radius: 8px 3px 3px 8px;
-  padding: 2rem 1.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  color: #d8c08a;
-  box-shadow: inset -8px 0 16px rgba(0,0,0,0.35), inset 0 0 0 1px rgba(216,192,138,0.18);
-  min-height: 280px;
-}
-.yardage__brand {
-  font-family: var(--serif);
-  font-size: 1.4rem;
-  letter-spacing: 0.15em;
-  color: var(--gold-light);
-}
-.yardage__sub {
-  font-size: 0.6rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: rgba(216,192,138,0.7);
-}
-.yardage__rule {
-  width: 40px; height: 1px;
-  background: var(--gold);
-  margin-top: 0.4rem;
-}
-.yardage__pages {
-  background: linear-gradient(180deg, #f6f1e2, #e9e1cc);
-  border-radius: 3px 8px 8px 3px;
-  padding: 1.6rem 1.4rem;
-  box-shadow: inset 6px 0 12px rgba(120,100,60,0.12);
-  display: flex;
-  flex-direction: column;
-}
-.yardage__page-label {
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 0.95rem;
-  color: var(--gold-dim);
-  margin-bottom: 0.9rem;
-}
-.yardage__list {
-  list-style: none;
-  display: grid;
-  gap: 0.5rem;
-  flex: 1;
-}
-.yardage__list li {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  font-family: var(--serif);
-  font-size: 0.8rem;
-  color: var(--text-3);
-}
-.yardage__list i {
-  font-style: italic;
-  color: var(--gold-dim);
-  width: 1.4em;
-}
-.yardage__list .seal {
-  flex: 1;
-  height: 6px;
-  border-radius: 3px;
-  background: repeating-linear-gradient(90deg, var(--cream-3) 0 6px, transparent 6px 12px);
-  opacity: 0.7;
-}
-.yardage__locked {
-  margin-top: 1rem;
-  font-size: 0.58rem;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  color: var(--text-4);
-  text-align: center;
+.pillars__photo:hover { transform: translateY(-4px); }
+.pillars__photo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
 }
 
 /* ----------------------------------------------------------
