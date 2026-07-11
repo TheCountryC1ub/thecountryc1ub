@@ -7,15 +7,12 @@
 
 const STEPS = [
   {
-    type: 'intro',
+    // Landing = promise + question 1 on one screen (answering IS the start — no extra click).
+    type: 'options', key: 'goal', landing: true,
     kicker: 'Complimentary Golf Assessment',
-    title: 'Shoot 4–8 shots better.',
-    dek: 'Understand your game — and your mind. Answer 12 quick questions and get your personalized path to lower scores. Takes about 60 seconds.',
-    cta: 'Start my assessment',
-    fine: 'Free · No email required',
-  },
-  {
-    type: 'options', key: 'goal',
+    heading: 'Shoot 4–8 shots better.',
+    dek: 'Understand your game — and your mind. Answer 12 quick questions and get your personalized path to lower scores.',
+    fine: 'Free · No email required · About 60 seconds',
     title: 'What would you like to achieve?',
     options: ['Break 100', 'Break 90', 'Break 80', 'Break 70', 'Compete in big tournaments', 'Play on the PGA Tour'],
   },
@@ -45,7 +42,7 @@ const STEPS = [
   },
 ];
 
-const QUESTION_COUNT = STEPS.filter((s) => s.type !== 'intro').length;
+const QUESTION_COUNT = STEPS.length;
 const DEST = '/story?from=assessment';
 
 const mount = document.getElementById('qz');
@@ -54,8 +51,7 @@ const answers = {};
 let current = 0;
 
 function setProgress() {
-  const answered = Math.max(0, current - 1);
-  progressFill.style.width = `${(answered / QUESTION_COUNT) * 100}%`;
+  progressFill.style.width = `${(current / QUESTION_COUNT) * 100}%`;
 }
 
 function el(tag, cls, text) {
@@ -72,18 +68,16 @@ function show(i, dir = 1) {
   const card = el('section', 'qz-step');
   card.style.setProperty('--dir', dir);
 
-  if (step.type === 'intro') {
-    card.append(el('p', 'qz-kicker', step.kicker));
-    card.append(el('h1', 'qz-title qz-title--intro', step.title));
-    card.append(el('p', 'qz-dek', step.dek));
-    const btn = el('button', 'qz-btn', step.cta);
-    btn.type = 'button';
-    btn.addEventListener('click', () => show(i + 1));
-    card.append(btn);
-    card.append(el('p', 'qz-fine', step.fine));
-  } else {
-    card.append(el('p', 'qz-kicker', `Question ${questionIndex(i)} of ${QUESTION_COUNT}`));
-    card.append(el('h1', 'qz-title', step.title));
+  {
+    if (step.landing) {
+      card.append(el('p', 'qz-kicker qz-kicker--lg', step.kicker));
+      card.append(el('h1', 'qz-title qz-title--intro', step.heading));
+      card.append(el('p', 'qz-dek', step.dek));
+      card.append(el('h2', 'qz-question', step.title));
+    } else {
+      card.append(el('p', 'qz-kicker', `Question ${i + 1} of ${QUESTION_COUNT}`));
+      card.append(el('h1', 'qz-title', step.title));
+    }
     if (step.sub) card.append(el('p', 'qz-sub', step.sub));
 
     if (step.type === 'options') {
@@ -127,7 +121,9 @@ function show(i, dir = 1) {
       card.append(wrap, next);
     }
 
-    if (i > 1) {
+    if (step.landing) {
+      card.append(el('p', 'qz-fine', step.fine));
+    } else if (i > 0) {
       const back = el('button', 'qz-back', '← Back');
       back.type = 'button';
       back.addEventListener('click', () => show(i - 1, -1));
@@ -137,10 +133,6 @@ function show(i, dir = 1) {
 
   mount.replaceChildren(card);
   requestAnimationFrame(() => card.classList.add('is-in'));
-}
-
-function questionIndex(i) {
-  return STEPS.slice(1, i + 1).filter((s) => s.type !== 'intro').length;
 }
 
 function advance(i) {
