@@ -1,11 +1,15 @@
 import './style.css';
 import './story.css';
 
-// Quiz-arrival callout: only visitors coming from /assessment see the
-// "that was the first pillar" note (cold readers never saw a survey).
+// Quiz arrivals (?from=assessment): show the "that was the first pillar"
+// note, and retag the App Store links ct=story → ct=assessment so installs
+// from the quiz path split out in App Store Connect web-referrer reports.
 if (new URLSearchParams(window.location.search).get('from') === 'assessment') {
   const note = document.getElementById('quiznote');
   if (note) note.hidden = false;
+  document.querySelectorAll('a[href*="apps.apple.com"]').forEach((a) => {
+    a.href = a.href.replace('ct=story', 'ct=assessment');
+  });
 }
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
