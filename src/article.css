@@ -74,7 +74,7 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 .post__cta h3 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.4rem, 3vw, 2rem); line-height: 1.2; color: var(--white); margin-bottom: 0.7rem; }
 .post__cta p { font-size: 1rem; color: rgba(255,255,255,0.8); margin: 0 auto 1.5rem; max-width: 44ch; }
 .post__cta .btn { --btn-bg: var(--gold); }
-.post__cta-meta { margin-top: 1rem; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+.post__cta-meta { margin-top: 1.9rem; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
 
 /* ---- author bio (E-E-A-T) ---- */
 .author { display: flex; gap: 1.1rem; align-items: flex-start; margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
