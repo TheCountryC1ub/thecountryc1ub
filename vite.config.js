@@ -12,6 +12,7 @@ const input = {
   assessment: resolve(__dirname, 'assessment.html'),
   checkout: resolve(__dirname, 'checkout.html'),
   'thank-you': resolve(__dirname, 'thank-you.html'),
+  account: resolve(__dirname, 'account.html'),
 };
 
 // Auto-include every blog page — drop a blog/<slug>.html file and it ships.
