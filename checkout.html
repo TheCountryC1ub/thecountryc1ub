@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1A3A2A">
+<title>Secure Checkout · Elite Golf Consulting</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1A3A2A;--green-mid:#2C5C3E;--green-light:#3D7A54;
+    --cream:#F4F0E6;--cream-2:#EDE8DC;--cream-3:#E2DDD0;
+    --gold:#B8972A;--gold-light:#D4B84A;--gold-dim:#8B6E1E;
+    --text:#1A1A16;--text-2:#3D3D35;--text-3:#6B6B5E;--text-4:#9A9A8E;
+    --white:#FAFAF7;
+    --border:rgba(26,58,42,.15);--border-gold:rgba(184,151,42,.35);
+    --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,sans-serif;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--text);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--gold);color:#fff}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .sep{color:var(--gold);margin:0 .35em}
+
+  /* ---- dark green top bar, matches /story ---- */
+  .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+    padding:.75rem clamp(1.1rem,4vw,2.5rem);background:rgba(20,40,27,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .brand{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:rgba(255,255,255,.92)}
+  .brand img{height:28px;width:auto}
+  .brand span{font-family:var(--sans);font-weight:500;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase}
+  .securetag{font-family:var(--sans);font-weight:500;font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-light);display:flex;align-items:center;gap:7px}
+  @media(max-width:560px){.brand span{display:none}}
+
+  /* ---- hero, story-page voice ---- */
+  .hero{max-width:720px;margin:0 auto;padding:clamp(2.2rem,6vw,3.6rem) clamp(1.2rem,5vw,2rem) clamp(1.4rem,3vw,2rem);text-align:center}
+  .hero__kicker{font-family:var(--sans);font-weight:500;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:1.1rem}
+  .hero__headline{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,5.6vw,3.2rem);line-height:1.08;letter-spacing:-.01em;color:var(--text)}
+  .hero__dek{font-family:var(--serif);font-style:italic;font-size:clamp(1.05rem,2.1vw,1.28rem);line-height:1.4;color:var(--text-2);margin:1rem auto 0;max-width:34ch}
+
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,4vw,28px);position:relative;z-index:5}
+  .cols{display:grid;grid-template-columns:480px 1fr;gap:28px;align-items:start}
+  @media(max-width:960px){.cols{grid-template-columns:1fr}}
+  .under{max-width:820px;margin:6px auto 0;padding-bottom:80px}
+
+  .panel{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 50px rgba(26,58,42,.06);padding:clamp(22px,3.5vw,32px);margin-bottom:22px}
+  .panel h2{font-family:var(--serif);font-size:1.05rem;font-weight:600;letter-spacing:.03em;color:var(--gold-dim);margin-bottom:16px}
+
+  .benefits{list-style:none}
+  .benefits li{padding:10px 0 10px 34px;position:relative;border-bottom:1px solid var(--border);font-size:1.02rem;color:var(--text-2)}
+  .benefits li:last-child{border-bottom:none}
+  .benefits li::before{content:"✓";position:absolute;left:4px;top:9px;color:var(--green-mid);font-weight:700}
+  .benefits li b{font-weight:500;color:var(--text)}
+
+  /* ---- promise panel: pull-quote + dropcap, story-page voice ---- */
+  .promise .pull{font-family:var(--serif);font-style:italic;font-size:clamp(1.3rem,3vw,1.7rem);line-height:1.32;text-align:center;color:var(--gold-dim);margin:0 auto 1.4rem;max-width:22ch}
+  .promise p{color:var(--text-2);font-weight:300;font-size:1.02rem;margin-bottom:12px;line-height:1.7}
+  .promise p:last-of-type{margin-bottom:0}
+  .dropcap{float:left;font-family:var(--serif);font-size:3.1em;line-height:.82;padding:.04em .1em 0 0;color:var(--green)}
+  .promise .who{font-family:var(--sans);font-weight:500;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-top:14px;clear:both}
+
+  .paycol{position:sticky;top:84px}
+  @media(max-width:960px){.paycol{position:static}}
+  .paycard{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 26px 70px rgba(26,58,42,.12);overflow:hidden;position:relative}
+  .paycard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:2}
+  .order{padding:26px 26px 22px;border-bottom:1px solid var(--border);text-align:center}
+  .order__planname{font-family:var(--sans);font-weight:500;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+
+  /* price block — echoes the .adv__price treatment from /story */
+  .price-block{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+  .price-block__tag{font-size:.64rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#fff;
+    background:linear-gradient(160deg,var(--green-light),var(--green-mid));border:1px solid var(--green);
+    box-shadow:0 6px 16px -6px rgba(26,58,42,.5);padding:.35rem .9rem;border-radius:100px;margin-bottom:.3rem}
+  .price-block__row{display:inline-flex;align-items:baseline;gap:1rem;margin-top:.15rem}
+  .price-block__was{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.35rem);color:var(--text-4);
+    text-decoration:line-through;text-decoration-color:var(--gold-dim);text-decoration-thickness:2px}
+  .price-block__amt{font-family:var(--serif);font-size:clamp(2.1rem,5.5vw,2.7rem);line-height:1;color:var(--green)}
+  .price-block__amt small{font-size:.34em;color:var(--text-3);font-family:var(--sans);font-weight:400}
+  .price-block__note{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-top:.3rem}
+  .platform-note{margin-top:16px;padding-top:14px;border-top:1px dashed var(--border);font-size:.85rem;color:var(--text-2);text-align:center}
+  .platform-note b{color:var(--green);font-weight:600}
+
+  #payframe-holder{min-height:440px;background:#fff;position:relative}
+  #payframe-holder iframe{width:100%;height:640px;border:0;display:block}
+  @media(max-width:700px){#payframe-holder iframe{height:920px}}
+  .pay-fallback{padding:40px 30px 44px;text-align:center}
+  .pay-fallback .lockicon{font-size:1.7rem;margin-bottom:12px}
+  .pay-fallback h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:10px;color:var(--green)}
+  .pay-fallback p{color:var(--text-2);font-weight:300;font-size:.98rem;max-width:36ch;margin:0 auto 20px}
+  .pay-fallback a.btn-gold{display:inline-block;font-family:var(--sans);font-size:.85rem;font-weight:500;letter-spacing:.03em;text-decoration:none;
+    padding:15px 30px;border-radius:100px;background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 55%,var(--gold-dim) 100%);color:#1A1505;
+    border:1px solid rgba(255,240,200,.35);box-shadow:0 10px 30px -10px rgba(184,151,42,.55);transition:.3s}
+  .pay-fallback a.btn-gold:hover{filter:brightness(1.05);transform:translateY(-1px)}
+
+  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
+  .badge{font-family:var(--sans);font-weight:500;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);
+    border:1px solid var(--border);background:rgba(255,255,255,.7);border-radius:6px;padding:8px 12px;display:inline-flex;align-items:center;gap:7px}
+
+  .mfaq details{border-bottom:1px solid var(--border)}
+  .mfaq details:last-child{border-bottom:none}
+  .mfaq summary{cursor:pointer;padding:15px 4px;font-family:var(--serif);font-size:.95rem;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;color:var(--green)}
+  .mfaq summary::-webkit-details-marker{display:none}
+  .mfaq summary::after{content:"+";color:var(--gold);font-size:1.2rem}
+  .mfaq details[open] summary::after{content:"–"}
+  .mfaq details p{padding:0 4px 16px;color:var(--text-2);font-weight:300;font-size:.98rem}
+
+  footer{max-width:1120px;margin:0 auto;padding:2rem clamp(18px,4vw,28px) 3rem;border-top:1px solid var(--border);
+    display:flex;flex-wrap:wrap;gap:.8rem 1.5rem;align-items:center;justify-content:space-between;position:relative;z-index:5}
+  footer .foot-link{color:var(--green);text-decoration:none;font-size:.9rem}
+  footer .foot-link:hover{color:var(--gold-dim)}
+  footer .legal{font-family:var(--sans);font-weight:500;font-size:.66rem;letter-spacing:.1em;color:var(--text-3);text-transform:uppercase}
+
+  @media(max-width:600px){
+    body{font-size:16px}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="https://get.elitegolfconsulting.com">
+    <img src="/logo-icon-white.png" alt="Elite Golf Consulting">
+    <span>Elite Golf Consulting</span>
+  </a>
+  <span class="securetag">🔒 Secure checkout</span>
+</nav>
+
+<div class="hero">
+  <p class="hero__kicker">Elite Golf Consulting Membership</p>
+  <h1 class="hero__headline">Let's Master The Game.</h1>
+  <p class="hero__dek">It's not you vs. the other guy. It's all of us vs. the course.</p>
+</div>
+
+<div class="wrap">
+  <div class="cols">
+    <!-- ===== LEFT: payment first ===== -->
+    <div class="paycol">
+      <div class="paycard">
+        <div class="order">
+          <div class="order__planname" id="oName">9 Hole Rate · Annual</div>
+          <div class="price-block">
+            <span class="price-block__tag" id="oTag">Par for the front nine</span>
+            <span class="price-block__row">
+              <span class="price-block__amt" id="oPrice">$36<small> /yr</small></span>
+            </span>
+            <span class="price-block__note" id="oNote">One dollar · every stroke on the front nine</span>
+          </div>
+          <div class="platform-note">📱 <b>iPhone (iOS) only, for now</b> — Android is coming later.</div>
+        </div>
+        <div id="payframe-holder">
+          <!-- Fanbasis embedded checkout renders here; fallback below shows until connected -->
+          <div class="pay-fallback" id="payFallback">
+            <div class="lockicon">⛳</div>
+            <h3>Secure payment is being connected</h3>
+            <p>We're finishing the checkout link. Leave your email and we'll hold your rate and let you know the moment it's live.</p>
+            <a class="btn-gold" href="mailto:cameron@elitegolfconsulting.com?subject=Hold%20my%209%20Hole%20Rate">Hold my rate →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="badges">
+        <span class="badge">🔒 SSL-encrypted payment</span>
+        <span class="badge">💳 All major cards</span>
+        <span class="badge">⚡ Instant access</span>
+        <span class="badge">📱 iOS only (for now)</span>
+      </div>
+    </div>
+
+    <!-- ===== RIGHT: the promise ===== -->
+    <div>
+      <div class="panel">
+        <h2>The moment you're in</h2>
+        <ul class="benefits" id="benefitList"></ul>
+      </div>
+
+      <div class="panel promise">
+        <h2>Even Par</h2>
+        <p class="pull">Everyone else is chasing perfection. We're chasing progress.</p>
+        <p><span class="dropcap">E</span>very stroke you save is one you earned — with a system built from real competitive golf, not a generic tip feed. The 9 Pillars show you exactly where you're losing shots. Ask-a-Pro puts real players in your corner between rounds.</p>
+        <p>"11 years ago, I was living in a van — chasing The Masters." That's where this program came from. Elite Golf Consulting is what I wish I'd had.</p>
+        <div class="who">Cameron Tennant <span class="sep">·</span> Founder, Elite Golf Consulting</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== UNDER: answers ===== -->
+  <div class="under">
+    <div class="panel">
+      <h2>Quick answers</h2>
+      <div class="mfaq">
+        <details>
+          <summary>What do I get access to?</summary>
+          <p>The full Elite Golf Consulting app: the 9 Pillars performance program, round/stat/practice/mindset tracking, and Ask-a-Pro — where you can put your questions directly to elite and pro players.</p>
+        </details>
+        <details>
+          <summary>When do I get access?</summary>
+          <p>Right after checkout you'll be taken to download Elite Golf Consulting on the App Store. Log in with the email you used here and everything unlocks.</p>
+        </details>
+        <details>
+          <summary>Will my price ever change?</summary>
+          <p>No — $36/yr is your rate for as long as you stay a member. It doesn't step up after year one.</p>
+        </details>
+        <details>
+          <summary>Do I need to do anything in the App Store?</summary>
+          <p>No separate purchase there. The app itself is a free download — your membership here is what unlocks it.</p>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a class="foot-link" href="https://get.elitegolfconsulting.com">← Back to Elite Golf Consulting</a>
+  <p class="legal">Payments processed securely by Fanbasis</p>
+</footer>
+
+<script>
+(function(){
+  /* ================= FANBASIS CONFIG =================
+     Single product for now: "Elite Golf Consulting (9 Hole Rate)", $36/yr flat,
+     recurring, Fanbasis product ID Npgn8 (created 2026-07-13).
+     - If using the embedded iframe: fill handle + secret below (secret = the
+       checkout_session_secret from POST /public-api/checkout-sessions/embedded,
+       public-by-design, NOT the API key).
+     - Simpler alternative: paste the hosted payment link for this product
+       (the 🔗 icon next to it in the Fanbasis dashboard) into LINK below —
+       redirects instead of embedding, no handle/secret needed.
+     When the $72 "Even Par" tier ships later, restore the plan-toggle version
+     of this file (see git history) rather than bolting a second price onto
+     this simplified single-plan structure. */
+  var FANBASIS = {
+    handle: "",
+    secret: "",
+    productId: "Npgn8"
+  };
+  var LINK = ""; // hosted checkout link for the 9 Hole Rate product (optional, simpler than the embed)
+
+  /* Post-payment destination — where to send them once Fanbasis confirms payment.
+     Tells them to download the app + log in with the same email. */
+  var REDIRECT_URL = "https://get.elitegolfconsulting.com/thank-you?plan=nine-hole";
+
+  var PLAN = {
+    name: "9 Hole Rate · Annual",
+    tag: "Par for the front nine",
+    price: "$36<small> /yr</small>",
+    note: "One dollar · every stroke on the front nine",
+    value: 36.00,
+    benefits: [
+      "<b>The 9 Pillars program</b> — know exactly where you're losing strokes",
+      "<b>Ask-a-Pro</b> — put your questions to elite and pro players",
+      "<b>Full performance tracking</b> — rounds, stats, practice & mindset in one place",
+      "<b>The Elite Golf Consulting community</b> — golfers chasing the same edge",
+      "<b>Locked-in rate</b> — $36/yr, for as long as you're a member"
+    ]
+  };
+
+  function render(){
+    document.getElementById('oName').textContent = PLAN.name;
+    document.getElementById('oTag').textContent = PLAN.tag;
+    document.getElementById('oPrice').innerHTML = PLAN.price;
+    document.getElementById('oNote').textContent = PLAN.note;
+    document.getElementById('benefitList').innerHTML = PLAN.benefits.map(function(b){ return '<li>'+b+'</li>'; }).join('');
+    mountPayment();
+    try{ if(typeof gtag==='function'){
+      gtag('event','add_to_cart',{currency:'USD', value:PLAN.value, items:[{item_id:'nine-hole-rate', item_name:'Elite Golf Consulting — '+PLAN.name, price:PLAN.value, quantity:1}]});
+      gtag('event','begin_checkout',{currency:'USD', value:PLAN.value, items:[{item_id:'nine-hole-rate', item_name:'Elite Golf Consulting — '+PLAN.name, price:PLAN.value, quantity:1}]});
+    }}catch(_){}
+    try{ if(typeof fbq==='function'){
+      fbq('track','AddToCart',{value:PLAN.value, currency:'USD', content_name:'nine-hole-rate', content_ids:['nine-hole-rate'], content_type:'product'});
+      fbq('track','InitiateCheckout',{value:PLAN.value, currency:'USD', content_name:'nine-hole-rate'});
+    }}catch(_){}
+  }
+
+  function mountPayment(){
+    var holder = document.getElementById('payframe-holder');
+    var embedReady = FANBASIS.handle && FANBASIS.secret && FANBASIS.productId;
+    if(embedReady){
+      var theme = [
+        'theme=light',
+        'accent_color=1A3A2A',
+        'background_color=FAFAF7',
+        'surface_color=EDE8DC',
+        'heading_color=1A1A16',
+        'label_color=3D3D35',
+        'product_text_color=1A1A16',
+        'input_background_color=FFFFFF',
+        'border_color=E2DDD0',
+        'product_image=' + encodeURIComponent('https://get.elitegolfconsulting.com/logo-black.png'),
+        'redirect_url=' + encodeURIComponent(REDIRECT_URL)
+      ].join('&');
+      holder.innerHTML = '<iframe src="https://embedded.fanbasis.io/session/'+FANBASIS.handle+'/'+FANBASIS.productId+'/'+FANBASIS.secret+'?'+theme+'" allow="payment *" title="Secure payment"></iframe>';
+    } else if(LINK){
+      holder.innerHTML = '<div class="pay-fallback"><div class="lockicon">🔒</div><h3>Secure payment</h3><p>You’ll complete payment on our secure Fanbasis checkout — it takes about a minute.</p><a class="btn-gold" href="'+LINK+'">Continue to secure payment →</a></div>';
+    }
+    /* else: leave the "hold my rate" fallback that's in the HTML */
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>

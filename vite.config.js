@@ -10,6 +10,8 @@ const input = {
   story: resolve(__dirname, 'story.html'),
   partners: resolve(__dirname, 'partners.html'),
   assessment: resolve(__dirname, 'assessment.html'),
+  checkout: resolve(__dirname, 'checkout.html'),
+  'thank-you': resolve(__dirname, 'thank-you.html'),
 };
 
 // Auto-include every blog page — drop a blog/<slug>.html file and it ships.

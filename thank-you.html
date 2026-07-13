@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#1A3A2A">
+<title>You're In · Elite Golf Consulting</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#1A3A2A;--green-mid:#2C5C3E;--green-light:#3D7A54;
+    --cream:#F4F0E6;--cream-2:#EDE8DC;
+    --gold:#B8972A;--gold-light:#D4B84A;--gold-dim:#8B6E1E;
+    --text:#1A1A16;--text-2:#3D3D35;--text-3:#6B6B5E;
+    --white:#FAFAF7;
+    --border:rgba(26,58,42,.15);--border-gold:rgba(184,151,42,.35);
+    --serif:"Playfair Display",Georgia,serif;--sans:"DM Sans",system-ui,-apple-system,sans-serif;
+    --ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--cream);color:var(--text);font-family:var(--sans);font-weight:300;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+
+  .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:center;
+    padding:.75rem clamp(1.1rem,4vw,2.5rem);background:rgba(20,40,27,.92);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+  .brand{display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;color:rgba(255,255,255,.92)}
+  .brand img{height:28px;width:auto}
+  .brand span{font-family:var(--sans);font-weight:500;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase}
+
+  .wrap{max-width:640px;margin:0 auto;padding:clamp(2.4rem,7vw,4.5rem) clamp(1.2rem,5vw,2rem) 4rem;text-align:center}
+  .kicker{font-family:var(--sans);font-weight:500;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:1.1rem}
+  .headline{font-family:var(--serif);font-weight:400;font-size:clamp(2.3rem,6.5vw,3.4rem);line-height:1.08;letter-spacing:-.01em;color:var(--text)}
+  .dek{font-family:var(--serif);font-style:italic;font-size:clamp(1.1rem,2.3vw,1.3rem);line-height:1.4;color:var(--text-2);margin:1rem auto 0;max-width:34ch}
+
+  .panel{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 18px 50px rgba(26,58,42,.06);
+    padding:clamp(24px,4vw,34px);margin-top:2.4rem;text-align:left}
+  .panel h2{font-family:var(--serif);font-size:1rem;font-weight:600;letter-spacing:.03em;color:var(--gold-dim);margin-bottom:18px;text-align:center}
+
+  .steps{list-style:none;counter-reset:step}
+  .steps li{counter-increment:step;padding:14px 0 14px 42px;position:relative;border-bottom:1px solid var(--border);font-size:1.02rem;color:var(--text-2)}
+  .steps li:last-child{border-bottom:none}
+  .steps li::before{content:counter(step);position:absolute;left:0;top:12px;width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(160deg,var(--green-light),var(--green-mid));color:#fff;font-family:var(--serif);font-weight:600;font-size:.85rem;
+    display:flex;align-items:center;justify-content:center}
+  .steps li b{font-weight:500;color:var(--text)}
+
+  .warn{margin-top:1.6rem;display:flex;gap:12px;align-items:flex-start;background:rgba(184,151,42,.12);
+    border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:16px 20px}
+  .warn .ic{font-size:1.3rem;line-height:1;flex:none}
+  .warn p{font-size:1rem;color:var(--text);font-weight:400;line-height:1.5}
+  .warn b{font-weight:700;color:var(--green)}
+
+  .cta{text-align:center;margin-top:2rem}
+  .btn{display:inline-flex;align-items:center;gap:.7rem;padding:1.05rem 2.1rem;font-family:var(--sans);font-weight:500;font-size:.95rem;
+    letter-spacing:.04em;color:#1A1505;background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 55%,var(--gold-dim) 100%);
+    border:1px solid rgba(255,240,200,.35);border-radius:100px;text-decoration:none;box-shadow:0 10px 30px -10px rgba(184,151,42,.55);
+    transition:transform .3s var(--ease),filter .3s var(--ease)}
+  .btn:hover{transform:translateY(-2px);filter:brightness(1.04)}
+  .btn svg{margin-top:-2px}
+
+  .mismatch{margin-top:2.2rem;font-size:.92rem;color:var(--text-3)}
+  .mismatch a{color:var(--gold-dim);text-decoration:underline}
+
+  footer{border-top:1px solid var(--border);padding:2rem 0 3rem;text-align:center}
+  footer .fline{color:var(--text-3);font-style:italic;font-family:var(--serif);font-size:.95rem}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="brand" href="https://get.elitegolfconsulting.com">
+    <img src="/logo-icon-white.png" alt="Elite Golf Consulting">
+    <span>Elite Golf Consulting</span>
+  </a>
+</nav>
+
+<div class="wrap">
+  <p class="kicker">Membership Confirmed</p>
+  <h1 class="headline">You're in.</h1>
+  <p class="dek">Improving our game starts now. Here's how to get into the app.</p>
+
+  <div class="panel">
+    <h2>Next steps</h2>
+    <ul class="steps">
+      <li><b>Check your email</b> for your welcome message — it may take a few minutes to arrive.</li>
+      <li><b>Download Elite Golf Consulting</b> on the App Store (it's a free download).</li>
+      <li><b>Log in with the same email</b> you just used to join.</li>
+    </ul>
+  </div>
+
+  <div class="warn">
+    <span class="ic">⚠️</span>
+    <p><b>Use the exact same email you paid with.</b> A different email will not unlock your membership — no exceptions.</p>
+  </div>
+
+  <div class="cta">
+    <a class="btn" href="https://apps.apple.com/app/apple-store/id6779020005?pt=129016417&ct=checkout&mt=8" aria-label="Download Elite Golf Consulting on iOS">
+      <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" fill="currentColor"><path d="M11.18 8.5c.02 2.18 1.9 2.9 1.92 2.91-.02.05-.3 1.03-1 2.05-.6.87-1.23 1.74-2.22 1.76-.97.02-1.28-.57-2.39-.57-1.1 0-1.45.55-2.37.59-.95.04-1.68-.94-2.29-1.81-1.24-1.8-2.19-5.08-.92-7.3.63-1.1 1.76-1.8 2.99-1.82.94-.02 1.82.63 2.39.63.57 0 1.64-.78 2.77-.67.47.02 1.8.19 2.65 1.43-.07.04-1.58.93-1.56 2.77M9.4 3.36c.5-.61.84-1.46.75-2.31-.72.03-1.6.48-2.12 1.09-.47.54-.88 1.41-.77 2.24.8.06 1.63-.41 2.14-1.02"/></svg>
+      <span>Download on iOS</span>
+    </a>
+  </div>
+
+  <p class="mismatch">Paid with a different email by mistake? <a href="mailto:cameron@elitegolfconsulting.com?subject=Membership%20email%20mismatch">Contact us</a> and we'll fix it.</p>
+</div>
+
+<footer>
+  <p class="fline">Know your game like a Tour pro.</p>
+</footer>
+
+<script>
+(function(){
+  var plan = new URLSearchParams(location.search).get('plan');
+  var meta = plan ? {plan: plan} : {};
+  /* Non-revenue confirmation signal only — the real purchase event fires
+     server-side from the Fanbasis webhook once that pipeline is wired up,
+     to avoid double-counting the sale here. */
+  try{ if(typeof gtag==='function') gtag('event','membership_confirmed', meta); }catch(_){}
+  try{ if(typeof fbq==='function') fbq('trackCustom','MembershipConfirmed', meta); }catch(_){}
+})();
+</script>
+</body>
+</html>
