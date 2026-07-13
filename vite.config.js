@@ -45,12 +45,14 @@ const googleAnalytics = {
 };
 
 // Meta (Facebook) Pixel — base PageView on every page, plus:
-//   • Lead        on any "Download on iOS" (App Store) click  → bottom of funnel
+//   • Lead        on any "Download on iOS" (App Store) click  → free-app download intent
 //   • ViewContent when the visitor scrolls past 50%           → higher-volume warm-up event
-//   • AddToCart   fires on /assessment quiz completion (src/assessment.js) → the ad-optimization event
-// Funnel: PageView → ViewContent → AddToCart (quiz done) → Lead / begin_checkout (App Store click).
-// GA4 mirrors it: quiz completion fires add_to_cart, App Store click fires begin_checkout
-// (value/currency set so both can be imported into Google Ads as value-based conversions).
+//   • AddToCart   fires on /assessment quiz completion (src/assessment.js)
+// Membership model (2026-07-13): the app is free; the paid conversion is the WEB checkout
+// ($36/yr 9 Hole Twilight Rate) — /checkout fires its own add_to_cart/begin_checkout(value 36)
+// + InitiateCheckout, and the real Purchase fires server-side from the Fanbasis webhook later.
+// GA4: App Store click = custom app_store_click (no fake value); begin_checkout now means
+// the actual checkout page only.
 const FB_ID = '27839343388989480';
 const metaPixel = {
   name: 'inject-meta-pixel',
@@ -61,7 +63,7 @@ const metaPixel = {
         children:
           `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');` +
           `fbq('init','${FB_ID}');fbq('track','PageView');` +
-          `document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="apps.apple.com"]');if(a){if(window.fbq){fbq('track','Lead');}if(window.gtag){gtag('event','begin_checkout',{currency:'USD',value:14.99,items:[{item_id:'elite-golf-consulting-app',item_name:'Elite Golf Consulting App',price:14.99,quantity:1}]});}}},true);` +
+          `document.addEventListener('click',function(e){var a=e.target&&e.target.closest&&e.target.closest('a[href*="apps.apple.com"]');if(a){if(window.fbq){fbq('track','Lead');}if(window.gtag){gtag('event','app_store_click',{link_url:a.href});}}},true);` +
           `(function(){var fired=false;function onScroll(){if(fired)return;var el=document.documentElement;if((window.scrollY+window.innerHeight)/el.scrollHeight>0.5){fired=true;if(window.fbq)fbq('track','ViewContent');window.removeEventListener('scroll',onScroll);}}window.addEventListener('scroll',onScroll,{passive:true});})();`,
         injectTo: 'head',
       },
