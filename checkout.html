@@ -64,6 +64,12 @@
   .dropcap{float:left;font-family:var(--serif);font-size:3.1em;line-height:.82;padding:.04em .1em 0 0;color:var(--green)}
   .promise .who{font-family:var(--sans);font-weight:500;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3);margin-top:14px;clear:both}
 
+  .proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0 24px;clear:both}
+  .proof-grid figure{margin:0}
+  .proof-grid img{width:100%;height:150px;object-fit:cover;border-radius:8px;box-shadow:0 14px 30px -14px rgba(26,58,42,.4)}
+  .proof-grid figcaption{margin-top:8px;font-family:var(--serif);font-style:italic;font-size:.85rem;color:var(--text-3);text-align:center;line-height:1.4}
+  @media(max-width:520px){.proof-grid{grid-template-columns:1fr}.proof-grid img{height:190px}}
+
   .paycol{position:sticky;top:84px}
   @media(max-width:960px){.paycol{position:static}}
   .paycard{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 26px 70px rgba(26,58,42,.12);overflow:hidden;position:relative}
@@ -97,9 +103,13 @@
     border:1px solid rgba(255,240,200,.35);box-shadow:0 10px 30px -10px rgba(184,151,42,.55);transition:.3s}
   .pay-fallback a.btn-gold:hover{filter:brightness(1.05);transform:translateY(-1px)}
 
-  .badges{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:18px}
-  .badge{font-family:var(--sans);font-weight:500;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);
-    border:1px solid var(--border);background:rgba(255,255,255,.7);border-radius:6px;padding:8px 12px;display:inline-flex;align-items:center;gap:7px}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:20px}
+  .badge{font-family:var(--sans);font-weight:600;font-size:.88rem;letter-spacing:.01em;
+    border-radius:8px;padding:11px 16px;display:inline-flex;align-items:center;gap:8px}
+  .badge--green{color:#fff;background:linear-gradient(160deg,var(--green-light),var(--green-mid));
+    border:1px solid var(--green);box-shadow:0 8px 18px -8px rgba(26,58,42,.5)}
+  .badge--gold{color:#1A1505;background:linear-gradient(180deg,var(--gold-light) 0%,var(--gold) 55%,var(--gold-dim) 100%);
+    border:1px solid rgba(255,240,200,.4);box-shadow:0 8px 18px -8px rgba(184,151,42,.55)}
 
   .mfaq details{border-bottom:1px solid var(--border)}
   .mfaq details:last-child{border-bottom:none}
@@ -164,10 +174,10 @@
       </div>
 
       <div class="badges">
-        <span class="badge">🔒 SSL-encrypted payment</span>
-        <span class="badge">💳 All major cards</span>
-        <span class="badge">⚡ Instant access</span>
-        <span class="badge">📱 iOS only (for now)</span>
+        <span class="badge badge--green">🔒 SSL-encrypted payment</span>
+        <span class="badge badge--gold">💳 All major cards</span>
+        <span class="badge badge--green">⚡ Instant access</span>
+        <span class="badge badge--gold">📱 iOS only (for now)</span>
       </div>
     </div>
 
@@ -183,6 +193,18 @@
         <p class="pull">Everyone else is chasing perfection. We're chasing progress.</p>
         <p><span class="dropcap">E</span>very stroke you save is one you earned — with a system built from real competitive golf, not a generic tip feed. The 9 Pillars show you exactly where you're losing shots. Ask-a-Pro puts real players in your corner between rounds.</p>
         <p>"11 years ago, I was living in a van — chasing The Masters." That's where this program came from. Elite Golf Consulting is what I wish I'd had.</p>
+
+        <div class="proof-grid">
+          <figure>
+            <img src="/van.jpg" alt="Cameron Tennant and the van he lived in while chasing the game">
+            <figcaption>Home, for a while.</figcaption>
+          </figure>
+          <figure>
+            <img src="/jj-spaun.jpg" alt="Cameron Tennant's college golf career at San Diego State, alongside J.J. Spaun">
+            <figcaption>San Diego State, with J.J. Spaun.</figcaption>
+          </figure>
+        </div>
+
         <div class="who">Cameron Tennant <span class="sep">·</span> Founder, Elite Golf Consulting</div>
       </div>
     </div>
