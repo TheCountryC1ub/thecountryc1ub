@@ -2,6 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<script>
+/* Frame-buster: the Fanbasis embedded checkout redirects INSIDE its iframe after
+   payment, so this page can load framed within /checkout. Break out to the full
+   window so the buyer actually lands on the thank-you page. */
+if (window.top !== window.self) { try { window.top.location.replace(window.location.href); } catch (_) {} }
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#1A3A2A">
 <title>You're In · Elite Golf Consulting</title>
@@ -118,6 +124,7 @@
 
 <script>
 (function(){
+  if (window.top !== window.self) return; /* framed = mid frame-bust; fire only on the real top-level load */
   var plan = new URLSearchParams(location.search).get('plan');
   var meta = plan ? {plan: plan} : {};
   /* Non-revenue confirmation signal only — the real purchase event fires
