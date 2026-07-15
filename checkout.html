@@ -92,8 +92,11 @@
   .platform-note b{color:var(--green);font-weight:600}
 
   #payframe-holder{min-height:440px;background:#fff;position:relative}
-  #payframe-holder iframe{width:100%;height:640px;border:0;display:block}
-  @media(max-width:700px){#payframe-holder iframe{height:920px}}
+  /* Heights sized for the SDK embed with product card hidden; payment-method
+     fields render inside this space once Commas approves the org — re-verify
+     and tighten then so the form never scrolls internally. */
+  #payframe-holder iframe{width:100%;height:720px;border:0;display:block}
+  @media(max-width:700px){#payframe-holder iframe{height:860px}}
   .pay-fallback{padding:40px 30px 44px;text-align:center}
   .pay-fallback .lockicon{font-size:1.7rem;margin-bottom:12px}
   .pay-fallback h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:10px;color:var(--green)}
@@ -335,8 +338,8 @@
           theme: {
             theme: 'light',
             accent_color: '#1A3A2A',
-            show_product_info: true,
-            product_layout: 'left',
+            /* our own plan card sits beside the form — Commas' duplicate product card off */
+            show_product_info: false,
             show_coupon_row: false
           }
         });
