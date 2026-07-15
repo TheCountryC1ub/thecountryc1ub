@@ -260,21 +260,20 @@
      Single product: "Elite Golf Consulting (9 Hole Twilight Rate)", $36/yr flat,
      recurring, product ID qDvjk — lives in the dedicated EGC organization on
      Commas (2026-07-15; replaces the old TCC-org product Npgn8).
-     - Embed (preferred, keeps buyers on-page): fill handle + secret below
-       (secret = the checkout session secret from the EGC org, public-by-design,
-       NOT the API key). Blank until the new EGC-org session secret is issued —
-       the old values were TCC-org-scoped and sold the wrong product.
-     - Until then LINK (the product's hosted payment link) drives checkout via
-       the fallback button below.
+     - Embed uses Commas' official SDK (cdn.embedded.fanbasis.io/embed/index.js,
+       docs: apidocs.fan). creatorId = the EGC org handle; sessionSecret = the
+       EGC-org checkout session secret (public-by-design, NOT the API key;
+       session ID 845356). If the SDK fails to load or errors, the buyer gets
+       the hosted-payment-link button instead — never a dead end.
      When the $72 "Even Par" tier ships later, restore the plan-toggle version
      of this file (see git history) rather than bolting a second price onto
      this simplified single-plan structure. */
   var FANBASIS = {
-    handle: "",
-    secret: "",
+    creatorId: "elite-golf-consulting",
+    sessionSecret: "ddaede9d-70f0-4634-a333-e9a7cf49d828",
     productId: "qDvjk"
   };
-  var LINK = "https://commas.com/checkout/qDvjkIkvngP6RK"; // hosted payment link for qDvjk (EGC org)
+  var LINK = "https://commas.com/checkout/qDvjkIkvngP6RK"; // hosted payment link for qDvjk (EGC org) — fallback if the embed can't load
 
   /* Post-payment destination — where to send them once Fanbasis confirms payment.
      Tells them to download the app + log in with the same email. */
@@ -312,28 +311,47 @@
     }}catch(_){}
   }
 
+  function showLinkFallback(holder){
+    if(!LINK) return; /* leave the "hold my rate" fallback that's in the HTML */
+    holder.innerHTML = '<div class="pay-fallback"><div class="lockicon">🔒</div><h3>Secure payment</h3><p>You’ll complete payment on our secure Commas checkout — it takes about a minute.</p><a class="btn-gold" href="'+LINK+'">Continue to secure payment →</a></div>';
+  }
+
   function mountPayment(){
     var holder = document.getElementById('payframe-holder');
-    var embedReady = FANBASIS.handle && FANBASIS.secret && FANBASIS.productId;
-    if(embedReady){
-      var theme = [
-        'theme=light',
-        'accent_color=1A3A2A',
-        'background_color=FAFAF7',
-        'surface_color=EDE8DC',
-        'heading_color=1A1A16',
-        'label_color=3D3D35',
-        'product_text_color=1A1A16',
-        'input_background_color=FFFFFF',
-        'border_color=E2DDD0',
-        'product_image=' + encodeURIComponent('https://get.elitegolfconsulting.com/logo-black.png'),
-        'redirect_url=' + encodeURIComponent(REDIRECT_URL)
-      ].join('&');
-      holder.innerHTML = '<iframe src="https://embedded.fanbasis.io/session/'+FANBASIS.handle+'/'+FANBASIS.productId+'/'+FANBASIS.secret+'?'+theme+'" allow="payment *" title="Secure payment"></iframe>';
-    } else if(LINK){
-      holder.innerHTML = '<div class="pay-fallback"><div class="lockicon">🔒</div><h3>Secure payment</h3><p>You’ll complete payment on our secure Commas checkout — it takes about a minute.</p><a class="btn-gold" href="'+LINK+'">Continue to secure payment →</a></div>';
-    }
-    /* else: leave the "hold my rate" fallback that's in the HTML */
+    var embedReady = FANBASIS.creatorId && FANBASIS.sessionSecret && FANBASIS.productId;
+    if(!embedReady){ showLinkFallback(holder); return; }
+    var s = document.createElement('script');
+    s.src = 'https://cdn.embedded.fanbasis.io/embed/index.js';
+    s.onerror = function(){ showLinkFallback(holder); };
+    s.onload = function(){
+      try{
+        holder.innerHTML = '';
+        var checkout = PaymentCheckout.create({
+          creatorId: FANBASIS.creatorId,
+          productId: FANBASIS.productId,
+          checkoutSessionSecret: FANBASIS.sessionSecret,
+          environment: 'production',
+          redirectSettings: { success_redirect_url: REDIRECT_URL, always_redirect: true },
+          theme: {
+            theme: 'light',
+            accent_color: '#1A3A2A',
+            show_product_info: true,
+            product_layout: 'left',
+            show_coupon_row: false
+          }
+        });
+        checkout.attachToElement(holder);
+        checkout.on('checkout:success', function(){ window.location.href = REDIRECT_URL; });
+        checkout.on('checkout:error', function(err){
+          /* integration/config error — not a card decline; give the buyer a way to pay */
+          try{ console.error('[checkout]', err && err.code, err && err.message); }catch(_){}
+          showLinkFallback(holder);
+        });
+        /* form:submission_error (card declined etc.) is displayed by the form itself */
+        checkout.init();
+      }catch(e){ showLinkFallback(holder); }
+    };
+    document.head.appendChild(s);
   }
 
   render();
