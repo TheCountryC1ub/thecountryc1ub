@@ -10,6 +10,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- start fetching the Commas embed SDK immediately, in parallel with everything
+     else, instead of only after our own JS runs -->
+<link rel="preload" as="script" href="https://cdn.embedded.fanbasis.io/embed/index.js">
 <style>
   :root{
     --green:#1A3A2A;--green-mid:#2C5C3E;--green-light:#3D7A54;
@@ -97,6 +100,11 @@
      and tighten then so the form never scrolls internally. */
   #payframe-holder iframe{width:100%;height:720px;border:0;display:block}
   @media(max-width:700px){#payframe-holder iframe{height:860px}}
+  .pay-loading{padding:80px 30px;text-align:center}
+  .pay-loading .spinner{width:34px;height:34px;margin:0 auto 18px;border-radius:50%;
+    border:3px solid rgba(26,58,42,.12);border-top-color:var(--gold);animation:spin .8s linear infinite}
+  .pay-loading p{color:var(--text-2);font-weight:300;font-size:.98rem}
+  @keyframes spin{to{transform:rotate(360deg)}}
   .pay-fallback{padding:40px 30px 44px;text-align:center}
   .pay-fallback .lockicon{font-size:1.7rem;margin-bottom:12px}
   .pay-fallback h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:10px;color:var(--green)}
@@ -174,12 +182,13 @@
           <div class="platform-note">📱 <b>iPhone (iOS) only, for now</b> — Android is coming later.</div>
         </div>
         <div id="payframe-holder">
-          <!-- Fanbasis embedded checkout renders here; fallback below shows until connected -->
-          <div class="pay-fallback" id="payFallback">
-            <div class="lockicon">⛳</div>
-            <h3>Secure payment is being connected</h3>
-            <p>We're finishing the checkout link. Leave your email and we'll hold your rate and let you know the moment it's live.</p>
-            <a class="btn-gold" href="mailto:dani@thecountryc1ub.com?subject=Hold%20my%209%20Hole%20Rate">Hold my rate →</a>
+          <!-- Commas embed SDK replaces this the moment it loads (normally
+               ~1-2s) — this is a genuine loading state, NOT the error
+               fallback (that's injected by JS only if the embed actually
+               fails; see showLinkFallback in the script below). -->
+          <div class="pay-loading" id="payLoading">
+            <div class="spinner"></div>
+            <p>Preparing secure payment&hellip;</p>
           </div>
         </div>
       </div>
