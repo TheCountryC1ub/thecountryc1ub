@@ -70,7 +70,9 @@ function toNumber(v) {
   return parseFloat(String(v).replace(/[^0-9.\-]/g, ''));
 }
 
-module.exports = async function (req, res) {
+/* ESM export — this repo's package.json has "type":"module", so CommonJS
+   module.exports would crash the function on load (FUNCTION_INVOCATION_FAILED). */
+export default async function handler(req, res) {
   if (req.method !== 'POST') {
     res.status(405).json({ error: 'POST only' });
     return;
