@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Clubhouse Report · Elite Golf Consulting</title>
+<meta name="description" content="Elite Golf Consulting — private reporting from the grounds.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://get.elitegolfconsulting.com/dashboard">
+<meta property="og:title" content="The Clubhouse Report · Elite Golf Consulting">
+<meta property="og:description" content="Private reporting from the grounds.">
+<meta property="og:url" content="https://get.elitegolfconsulting.com/dashboard">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg">
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "WebPage",
+   "@id": "https://get.elitegolfconsulting.com/dashboard#page",
+   "url": "https://get.elitegolfconsulting.com/dashboard",
+   "name": "The Clubhouse Report",
+   "description": "Elite Golf Consulting — private reporting from the grounds.",
+   "inLanguage": "en",
+   "isPartOf": { "@type": "WebSite", "@id": "https://get.elitegolfconsulting.com/#website" }
+  },
+  {
+   "@type": "BreadcrumbList",
+   "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://get.elitegolfconsulting.com/" },
+    { "@type": "ListItem", "position": 2, "name": "The Clubhouse Report", "item": "https://get.elitegolfconsulting.com/dashboard" }
+   ]
+  }
+ ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E2117;--bg-2:#0A1A12;--panel:#16311F;--panel-2:#1C3B27;
+    --ink:#F4F0E6;--ink-2:#C9CDBB;--muted:#8E9A85;
+    --gold:#D4B84A;--gold-dim:#B8972A;--gold-deep:#8B6E1E;
+    --g1:#B9D8C2;--g2:#8FBE9B;--g3:#63A175;--g4:#3F8557;
+    --line:rgba(212,184,74,.16);--line-2:rgba(244,240,230,.10);
+    --serif:"Playfair Display",Georgia,serif;
+    --sans:"DM Sans",system-ui,-apple-system,sans-serif;
+    --maxw:1120px;--ease:cubic-bezier(.22,1,.36,1);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  ::selection{background:var(--gold);color:#1A1206}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .grain{position:fixed;inset:0;z-index:9000;pointer-events:none;opacity:.04;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 clamp(20px,4vw,28px);position:relative;z-index:5}
+  .eyebrow{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.34em;text-transform:uppercase;color:var(--gold)}
+  h1,h2{font-family:var(--serif);font-weight:500;line-height:1.12;color:var(--ink)}
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  .sec{padding:clamp(56px,8vw,88px) 0}
+  .sec-head{margin-bottom:clamp(26px,4vw,38px)}
+  .sec-head h2{font-size:clamp(1.5rem,3.2vw,2.1rem);margin-top:10px}
+  .sec-head .lede{color:var(--ink-2);max-width:620px;margin-top:10px;font-size:.98rem;font-weight:300}
+  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s var(--ease),transform .7s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ===== gate ===== */
+  .gate{position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;background:var(--bg-2);transition:opacity .6s var(--ease)}
+  .gate.leaving{opacity:0;pointer-events:none}
+  .gate.off{display:none}
+  .gatecard{width:min(92vw,380px);border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);box-shadow:0 30px 80px rgba(0,0,0,.5);position:relative}
+  .gatedoor{height:210px;background:url('/dash/door.jpg') center 30%/cover no-repeat;filter:saturate(.9)}
+  .gatedoor::after{content:"";display:block;height:100%;background:linear-gradient(180deg,rgba(10,26,18,0) 40%,var(--panel) 100%)}
+  .gatebody{padding:6px 30px 32px;text-align:center;margin-top:-34px;position:relative}
+  .gatebody .eyebrow{font-size:.62rem}
+  .gatebody h2{font-size:1.7rem;margin-top:8px}
+  .gatebody p{color:var(--ink-2);font-size:.92rem;font-weight:300;margin-top:6px}
+  .gate input{margin-top:20px;width:100%;background:var(--bg-2);border:1px solid var(--line-2);border-radius:8px;color:var(--ink);font-family:var(--sans);font-size:1.05rem;letter-spacing:.18em;text-align:center;padding:13px 14px;outline:none;transition:.3s}
+  .gate input:focus{border-color:var(--gold)}
+  .gatebtn{margin-top:14px;width:100%;font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:#1A1206;background:var(--gold);border:0;border-radius:8px;padding:14px;cursor:pointer;transition:.3s}
+  .gatebtn:hover{background:var(--g2);transform:translateY(-1px)}
+  .denied{position:absolute;top:14px;right:14px;z-index:6;font-family:var(--serif);font-style:italic;color:#E58A7A;font-size:.95rem;text-shadow:0 1px 8px rgba(0,0,0,.6);opacity:0;transition:.3s}
+  .gatecard.no .denied{opacity:.95}
+  .gatecard.no{animation:shake .4s}
+  @keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .gatefoot{padding:0 30px 22px;text-align:center;color:var(--muted);font-size:.72rem;letter-spacing:.08em}
+
+  /* ===== nav ===== */
+  .nav{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:13px clamp(18px,4vw,36px);background:rgba(10,26,18,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line-2)}
+  .brand{display:flex;align-items:center;gap:11px;text-decoration:none}
+  .brand img{width:26px}
+  .brand b{font-family:var(--sans);font-weight:600;letter-spacing:.2em;font-size:.78rem;text-transform:uppercase;white-space:nowrap}
+  .brand b span{color:var(--gold)}
+  .backlink{font-size:.72rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;color:var(--ink-2);border:1px solid var(--line-2);padding:9px 16px;border-radius:6px;transition:.3s;background:transparent}
+  .backlink:hover{border-color:var(--gold);color:var(--gold)}
+  @media(max-width:480px){.brand b{font-size:.66rem;letter-spacing:.12em}.backlink{padding:8px 11px;font-size:.62rem;letter-spacing:.1em}}
+
+  /* ===== hero ===== */
+  .hero{position:relative;min-height:56vh;display:flex;align-items:flex-end;background:url('/dash/hero.jpg') center 40%/cover no-repeat}
+  .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,26,18,.55) 0%,rgba(10,26,18,.25) 40%,var(--bg) 96%)}
+  .heroinner{position:relative;z-index:2;width:100%;padding:110px 0 34px}
+  .livechip{display:inline-flex;align-items:center;gap:9px;font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;color:var(--ink);background:rgba(10,26,18,.55);border:1px solid var(--line);padding:8px 15px;border-radius:99px;backdrop-filter:blur(6px)}
+  .livedot{width:8px;height:8px;border-radius:50%;background:var(--g3)}
+  .livedot.on{animation:pulse 2s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(99,161,117,.55)}70%{box-shadow:0 0 0 9px rgba(99,161,117,0)}100%{box-shadow:0 0 0 0 rgba(99,161,117,0)}}
+  .hero h1{font-size:clamp(2.2rem,5.4vw,3.6rem);margin-top:16px}
+  .updated{color:var(--ink-2);font-size:.9rem;font-weight:300;margin-top:10px}
+  .ranges{display:flex;gap:8px;margin-top:22px;flex-wrap:wrap}
+  .rbtn{font-family:var(--sans);font-size:.72rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-2);background:rgba(10,26,18,.5);border:1px solid var(--line-2);border-radius:99px;padding:10px 18px;cursor:pointer;transition:.25s}
+  .rbtn:hover{color:var(--ink);border-color:var(--line)}
+  .rbtn.on{color:#1A1206;background:var(--gold);border-color:var(--gold)}
+
+  /* ===== scorecard tiles ===== */
+  .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:-2px}
+  .tile{background:var(--panel);border:1px solid var(--line-2);border-top:2px solid var(--gold-dim);border-radius:12px;padding:22px 20px 18px;transition:transform .3s var(--ease)}
+  .tile:hover{transform:translateY(-2px)}
+  .tile .n{font-family:var(--serif);font-size:clamp(1.9rem,3.6vw,2.5rem);line-height:1;color:var(--ink)}
+  .tile .lbl{margin-top:9px;font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  .tile .sub{margin-top:3px;font-size:.78rem;color:var(--ink-2);font-weight:300}
+  @media(max-width:760px){.tiles{grid-template-columns:repeat(2,1fr)}}
+
+  /* ===== image bands ===== */
+  .band{position:relative;height:clamp(180px,30vw,280px);background-position:center;background-size:cover;margin:clamp(40px,6vw,64px) 0 0}
+  .band::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(14,33,23,.18) 30%,rgba(14,33,23,.18) 70%,var(--bg) 100%)}
+  .band .bandline{position:absolute;left:0;right:0;bottom:26px;z-index:2;text-align:center;font-family:var(--serif);font-style:italic;font-size:clamp(1rem,2.2vw,1.3rem);color:var(--ink);text-shadow:0 2px 18px rgba(0,0,0,.55)}
+
+  /* ===== funnel ===== */
+  .funnel{display:flex;flex-direction:column;gap:12px}
+  .frow{display:grid;grid-template-columns:190px 1fr 120px;gap:16px;align-items:center}
+  .frow .flbl{font-size:.86rem;color:var(--ink-2)}
+  .frow .fbarwrap{background:var(--bg-2);border-radius:6px;height:30px;overflow:hidden}
+  .frow .fbar{height:100%;border-radius:0 4px 4px 0;width:0;transition:width 1s var(--ease)}
+  .frow .fval{text-align:right;font-size:.95rem}
+  .frow .fval b{font-family:var(--serif);font-size:1.15rem;font-weight:500}
+  .frow .fval span{display:block;font-size:.72rem;color:var(--muted);letter-spacing:.06em}
+  @media(max-width:640px){.frow{grid-template-columns:1fr 90px;grid-template-areas:"lbl val" "bar val"}.frow .flbl{grid-area:lbl}.frow .fbarwrap{grid-area:bar}.frow .fval{grid-area:val}}
+  .signals{margin-top:26px;display:flex;gap:10px;flex-wrap:wrap}
+  .sig{font-size:.78rem;color:var(--ink-2);border:1px solid var(--line-2);border-radius:99px;padding:8px 15px;background:var(--panel)}
+  .sig b{color:var(--gold);font-weight:600}
+
+  /* ===== chart panel ===== */
+  .panel{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;padding:clamp(18px,3vw,28px)}
+  .chart{position:relative;width:100%}
+  .chart svg{display:block;width:100%;height:auto}
+  .tip{position:fixed;z-index:9990;pointer-events:none;background:var(--bg-2);border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:.8rem;color:var(--ink);box-shadow:0 10px 30px rgba(0,0,0,.45);opacity:0;transition:opacity .15s;white-space:nowrap}
+  .tip b{color:var(--gold)}
+
+  /* ===== two-col rows (sources/pages) ===== */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:clamp(18px,3vw,28px);align-items:start}
+  @media(max-width:860px){.cols{grid-template-columns:1fr}}
+  .rowlist{display:flex;flex-direction:column}
+  .lrow{display:grid;grid-template-columns:34px 1fr auto;gap:12px;align-items:center;padding:11px 6px;border-bottom:1px solid var(--line-2)}
+  .lrow:last-child{border-bottom:0}
+  .lrow .rk{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:.72rem;color:var(--gold);font-weight:600}
+  .lrow .nm{font-size:.9rem;min-width:0}
+  .lrow .nm i{display:block;font-style:normal;font-size:.72rem;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .lrow .vv{text-align:right;font-size:.92rem}
+  .lrow .vv span{display:block;font-size:.7rem;color:var(--muted);letter-spacing:.06em}
+  .minibar{height:4px;border-radius:2px;background:var(--bg-2);margin-top:6px;overflow:hidden}
+  .minibar i{display:block;height:100%;background:var(--g2);border-radius:2px;width:0;transition:width .9s var(--ease)}
+
+  /* ===== pro shop ===== */
+  .shop{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3.5vw,34px);align-items:stretch}
+  @media(max-width:860px){.shop{grid-template-columns:1fr}}
+  .shopimg{border-radius:14px;background:url('/dash/yardage.jpg') center/cover no-repeat;min-height:260px;border:1px solid var(--line-2)}
+  .shoptiles{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  @media(max-width:480px){.shoptiles{grid-template-columns:1fr}}
+  .note{margin-top:18px;font-size:.8rem;color:var(--muted);font-weight:300;line-height:1.55}
+
+  /* ===== tee sheet ===== */
+  .sheet{display:flex;flex-direction:column;gap:10px}
+  .item{display:grid;grid-template-columns:110px 1fr;gap:18px;align-items:baseline;background:var(--panel);border:1px solid var(--line-2);border-radius:12px;padding:16px 20px}
+  @media(max-width:560px){.item{grid-template-columns:1fr;gap:6px}}
+  .chip{font-size:.62rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:99px;padding:6px 0;text-align:center;border:1px solid}
+  .chip.green{color:#9ED8AE;border-color:rgba(99,161,117,.5);background:rgba(99,161,117,.12)}
+  .chip.gold{color:var(--gold);border-color:rgba(212,184,74,.45);background:rgba(212,184,74,.09)}
+  .chip.dim{color:var(--ink-2);border-color:var(--line-2);background:transparent}
+  .item .it{font-size:.95rem;font-weight:500}
+  .item .it i{display:block;font-style:normal;font-weight:300;font-size:.82rem;color:var(--muted);margin-top:2px}
+
+  /* ===== closer ===== */
+  .closer{position:relative;margin-top:clamp(56px,8vw,88px);min-height:46vh;display:flex;align-items:center;background:url('/dash/twilight.jpg') center 60%/cover no-repeat}
+  .closer::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0%,rgba(10,26,18,.15) 45%,rgba(10,26,18,.72) 100%)}
+  .closerin{position:relative;z-index:2;width:100%;text-align:center;padding:90px 0}
+  .closerin h2{font-size:clamp(1.7rem,4vw,2.6rem);text-shadow:0 2px 24px rgba(0,0,0,.5)}
+  .closerin p{font-family:var(--serif);font-style:italic;color:var(--ink-2);margin-top:12px;font-size:1.05rem}
+  footer{position:relative;z-index:3;text-align:center;padding:34px 20px 44px;background:var(--bg-2)}
+  footer img{width:30px;margin:0 auto 12px;opacity:.9}
+  .fline{font-size:.74rem;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<div class="tip" id="tip"></div>
+
+<!-- ===== GATE ===== -->
+<div class="gate" id="gate">
+  <div class="gatecard" id="gatecard">
+    <span class="denied">Not tonight.</span>
+    <div class="gatedoor" aria-hidden="true"></div>
+    <div class="gatebody">
+      <span class="eyebrow">Elite Golf Consulting</span>
+      <h2>The Clubhouse</h2>
+      <p>Members' entrance. Say the word.</p>
+      <form id="gform">
+        <input id="gkey" type="password" autocomplete="off" placeholder="· · · · · · ·" aria-label="Password">
+        <button class="gatebtn" id="genter" type="submit">Step Inside</button>
+      </form>
+    </div>
+    <div class="gatefoot">Our game. Elevated.</div>
+  </div>
+</div>
+
+<!-- ===== NAV ===== -->
+<nav class="nav">
+  <a class="brand" href="/dashboard">
+    <img src="/logo-icon-white.png" alt="">
+    <b>Elite Golf <span>Consulting</span></b>
+  </a>
+  <a class="backlink" href="https://get.elitegolfconsulting.com" target="_blank" rel="noopener">The Course ↗</a>
+</nav>
+
+<!-- ===== HERO ===== -->
+<header class="hero">
+  <div class="heroinner">
+    <div class="wrap">
+      <span class="livechip"><span class="livedot" id="livedot"></span><span id="livetxt">Connecting to the grounds…</span></span>
+      <h1>The Clubhouse Report</h1>
+      <p class="updated" id="updated">Reading the yardage book…</p>
+      <div class="ranges" id="ranges">
+        <button class="rbtn on" data-range="season">The Season</button>
+        <button class="rbtn" data-range="28d">28 Days</button>
+        <button class="rbtn" data-range="7d">7 Days</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===== SCORECARD ===== -->
+<section class="sec" style="padding-top:34px">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Scorecard</span>
+      <h2>How the grounds are playing.</h2>
+    </div>
+    <div class="tiles reveal" id="tiles" aria-live="polite"></div>
+  </div>
+</section>
+
+<!-- ===== TEE TO CUP ===== -->
+<div class="band" style="background-image:url('/dash/fairway.jpg')">
+  <div class="bandline">Every visitor is a tee shot. The cup is a membership.</div>
+</div>
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Tee to Cup</span>
+      <h2>The walk from first look to member.</h2>
+      <p class="lede">Real people at each stage of the funnel — not raw event counts. Until launch day this includes our own practice swings.</p>
+    </div>
+    <div class="panel reveal">
+      <div class="funnel" id="funnel"></div>
+    </div>
+    <div class="signals reveal" id="signals"></div>
+  </div>
+</section>
+
+<!-- ===== THE ROUND (daily) ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Round</span>
+      <h2>Visits, day by day.</h2>
+    </div>
+    <div class="panel chart reveal" id="daily"></div>
+  </div>
+</section>
+
+<!-- ===== SOURCES + COURSE ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="cols">
+      <div class="reveal">
+        <div class="sec-head">
+          <span class="eyebrow">The Invitations</span>
+          <h2>How they found the course.</h2>
+        </div>
+        <div class="panel rowlist" id="sources"></div>
+      </div>
+      <div class="reveal">
+        <div class="sec-head">
+          <span class="eyebrow">The Front Nine</span>
+          <h2>Where they walked.</h2>
+        </div>
+        <div class="panel rowlist" id="pages"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PRO SHOP ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Pro Shop</span>
+      <h2>The money, counted quietly.</h2>
+    </div>
+    <div class="shop reveal">
+      <div class="shopimg" role="img" aria-label="Leather yardage book on a desk"></div>
+      <div>
+        <div class="shoptiles" id="shoptiles"></div>
+        <p class="note" id="shopnote"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== TEE SHEET ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Tee Sheet</span>
+      <h2>What's between us and launch day.</h2>
+      <p class="lede">Curated by hand — updated when the state of play changes, not by the feed.</p>
+    </div>
+    <div class="sheet reveal" id="sheet"></div>
+  </div>
+</section>
+
+<!-- ===== CLOSER ===== -->
+<div class="closer">
+  <div class="closerin">
+    <div class="wrap">
+      <h2>Twilight on the front nine.</h2>
+      <p>Next tee time: launch day.</p>
+    </div>
+  </div>
+</div>
+<footer>
+  <img src="/logo-icon-white.png" alt="Elite Golf Consulting">
+  <p class="fline">Counted quietly · Reported from the grounds</p>
+</footer>
+
+<script>
+/* ===== The Clubhouse Report — live via /api/dash, snapshot fallback ===== */
+
+/* ---- snapshot (pulled Jul 19, 2026 — refresh by asking Claude) ---- */
+var SNAP_DATE = 'Jul 19, 2026';
+var SNAP = (function(){
+  var d28 = {
+    totals: [79, 170, 451, 299.2, 0.5471, 77],
+    daily: [['20260704',2,2],['20260705',3,3],['20260706',11,7],['20260707',37,26],['20260708',7,4],['20260709',5,4],['20260710',11,7],['20260711',7,5],['20260712',15,10],['20260713',34,11],['20260714',10,7],['20260715',11,6],['20260716',7,5],['20260717',8,7],['20260718',2,2]],
+    events: {page_view:451, begin_checkout:155, add_to_cart:153, membership_confirmed:58, first_visit:77, app_store_click:6, form_start:4, purchase:3, assessment_complete:2},
+    pages: [['/checkout',77,14],['/checkout.html',71,4],['/',57,32],['/thank-you',47,5],['/story',46,27],['/blog/elite-golf-consulting-foresome-partnership',29,12],['/assessment.html',19,1],['/blog',15,13],['/story.html',14,3],['/blog/overcoming-pressure-golf-confidence',11,5],['/partners',10,6],['/thank-you.html',10,1],['/account.html',8,1],['/blog/imagination-in-golf-see-the-shot',7,3],['/blog/break-golf-plateau-clear-intentions',6,3],['/blog/stop-overthinking-golf-take-action',6,5],['/assessment',5,3],['/blog/elite-golf-consulting-foresome-partnership.html',5,1],['/account',4,3],['/blog/',4,1]],
+    sources: [['(direct) / (none)',138],['ig / social',18],['(not set)',5],['facebook.com / referral',5],['l.instagram.com / referral',2],['replit.dev / referral',1],['lm.facebook.com / referral',1],['m.facebook.com / referral',1],['saas-data-1186.lightning.force.com / referral',1]]
+  };
+  return {
+    season: d28,
+    '28d': d28,
+    '7d': {
+      totals: [39, 94, 341, 411.8, 0.6277, 31],
+      daily: [['20260711',7,5],['20260712',15,10],['20260713',34,11],['20260714',10,7],['20260715',11,6],['20260716',7,5],['20260717',8,7],['20260718',2,2]],
+      events: {page_view:341, begin_checkout:155, add_to_cart:149, membership_confirmed:58, first_visit:31, app_store_click:6, form_start:4, purchase:3, assessment_complete:2},
+      pages: [['/checkout',77,14],['/checkout.html',71,4],['/thank-you',47,5],['/',27,12],['/story',25,18],['/assessment.html',19,1],['/story.html',13,2],['/blog/overcoming-pressure-golf-confidence',11,5],['/thank-you.html',10,1],['/account.html',8,1],['/blog/imagination-in-golf-see-the-shot',7,3],['/partners',6,6],['/assessment',5,3],['/account',4,3],['/blog',4,3],['/blog/',4,1],['/blog/elite-golf-consulting-foresome-partnership',2,3],['/blog/stop-overthinking-golf-take-action',1,1]],
+      sources: [['(direct) / (none)',73],['ig / social',10],['(not set)',5],['facebook.com / referral',3],['replit.dev / referral',1],['l.instagram.com / referral',1],['lm.facebook.com / referral',1],['m.facebook.com / referral',1],['saas-data-1186.lightning.force.com / referral',1]]
+    }
+  };
+})();
+var SNAP_COMMAS = { subscribers: 0, transactions: 0, collected_cents: 0 };
+
+/* ---- naming ---- */
+var PAGE_NAMES = {
+  '/': 'The Front Gate', '/story': 'The Story', '/checkout': 'The Pro Shop',
+  '/thank-you': 'Welcome In', '/assessment': 'The Assessment', '/account': 'The Locker Room',
+  '/partners': 'The Partners', '/blog': 'The Practice Range'
+};
+var RANGE_LABEL = { season: 'The Season · since Jul 1, 2026', '28d': 'Last 28 days', '7d': 'Last 7 days' };
+var RANGE_START = { season: '2026-07-01', '28d': -28, '7d': -7 };
+var PASS_HASH = '3eb178a9d2eaf5ee9ee725c765c3392ed07699d726aa2fbf9ecef58899d03218';
+var PASS_STORE = 'egc_dash_pass';
+
+var state = { range: 'season', pass: localStorage.getItem(PASS_STORE) || '', liveCache: {} };
+
+/* ---- utils ---- */
+function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
+function fmt(n){ return Number(n).toLocaleString('en-US'); }
+function fmtDur(sec){
+  if (!sec) return '—';
+  var m = Math.floor(sec / 60), s = Math.round(sec % 60);
+  return m ? m + 'm ' + (s < 10 ? '0' : '') + s + 's' : s + 's';
+}
+function norm(p){ return String(p || '').trim().toLowerCase().replace(/\s+/g, ''); }
+function sha256(str){
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode(str)).then(function(buf){
+    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2, '0'); }).join('');
+  });
+}
+function canon(path){
+  var p = String(path).replace(/\.html$/, '');
+  if (p.length > 1 && p.slice(-1) === '/') p = p.slice(0, -1);
+  return p;
+}
+function pageName(p){
+  if (PAGE_NAMES[p]) return PAGE_NAMES[p];
+  if (p.indexOf('/blog/') === 0){
+    return 'Range · ' + p.slice(6).replace(/-/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+  }
+  return p;
+}
+function srcName(s){
+  s = s.toLowerCase();
+  if (s.indexOf('(direct)') === 0) return 'Direct — typed in';
+  if (s.indexOf('ig /') === 0 || s.indexOf('instagram') !== -1) return 'Instagram';
+  if (s.indexOf('facebook') !== -1) return 'Facebook';
+  if (s.indexOf('replit') !== -1) return 'Replit (our testing)';
+  if (s.indexOf('force.com') !== -1) return 'Salesforce link';
+  if (s.indexOf('(not set)') === 0) return 'Unknown';
+  return s.split(' / ')[0];
+}
+function countUp(el, target, str){
+  if (str){ el.textContent = target; return; }
+  var t0 = null, dur = 700, finished = false;
+  function step(ts){
+    if (!t0) t0 = ts;
+    var p = Math.min(1, (ts - t0) / dur);
+    el.textContent = fmt(Math.round(target * (1 - Math.pow(1 - p, 3))));
+    if (p < 1) requestAnimationFrame(step); else finished = true;
+  }
+  requestAnimationFrame(step);
+  /* rAF can be throttled in background tabs — never leave a stat stuck at 0 */
+  setTimeout(function(){ if (!finished) el.textContent = fmt(target); }, dur + 300);
+}
+
+/* ---- shaping: raw {totals,daily,events,pages,sources} -> view model ---- */
+function shape(raw){
+  var pmap = {}, order = [];
+  raw.pages.forEach(function(r){
+    var p = canon(r[0]);
+    if (p === '(notset)' || p === '(not set)') return;
+    if (!pmap[p]){ pmap[p] = [0, 0]; order.push(p); }
+    pmap[p][0] += Number(r[1]); pmap[p][1] += Number(r[2]);
+  });
+  var pages = order.map(function(p){ return { path: p, views: pmap[p][0], users: pmap[p][1] }; })
+    .sort(function(a, b){ return b.views - a.views; });
+  var smap = {}, sorder = [];
+  raw.sources.forEach(function(r){
+    var n = srcName(r[0]);
+    if (!(n in smap)){ smap[n] = 0; sorder.push(n); }
+    smap[n] += Number(r[1]);
+  });
+  var sources = sorder.map(function(n){ return { name: n, sessions: smap[n] }; })
+    .sort(function(a, b){ return b.sessions - a.sessions; });
+  function u(path){ var f = pages.filter(function(p){ return p.path === path; })[0]; return f ? f.users : 0; }
+  return {
+    totals: raw.totals, daily: raw.daily, events: raw.events || {},
+    pages: pages, sources: sources,
+    funnel: [
+      { lbl: 'On the grounds', sub: 'unique visitors', v: raw.totals[0], c: 'var(--g1)' },
+      { lbl: 'Read the Story', sub: '/story', v: u('/story'), c: 'var(--g2)' },
+      { lbl: 'Into the Pro Shop', sub: '/checkout', v: u('/checkout'), c: 'var(--g3)' },
+      { lbl: 'Reached the welcome mat', sub: '/thank-you', v: u('/thank-you'), c: 'var(--g4)' },
+      { lbl: 'Purchases', sub: 'test swings so far', v: (raw.events || {}).purchase || 0, c: 'var(--gold)' }
+    ]
+  };
+}
+
+/* ---- date helpers: fill missing days with zeros ---- */
+function dateKey(d){ return d.getFullYear() + ('0' + (d.getMonth() + 1)).slice(-2) + ('0' + d.getDate()).slice(-2); }
+function fillDaily(daily, range){
+  var map = {};
+  daily.forEach(function(r){ map[r[0]] = [Number(r[1]), Number(r[2])]; });
+  var start, end = new Date();
+  if (typeof RANGE_START[range] === 'number'){ start = new Date(); start.setDate(start.getDate() + RANGE_START[range]); }
+  else { start = new Date(RANGE_START[range] + 'T12:00:00'); }
+  var out = [], d = new Date(start);
+  while (d <= end){
+    var k = dateKey(d);
+    out.push({ key: k, date: new Date(d), sessions: map[k] ? map[k][0] : 0, users: map[k] ? map[k][1] : 0 });
+    d.setDate(d.getDate() + 1);
+  }
+  return out;
+}
+function fmtDay(d){ return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }); }
+
+/* ---- renderers ---- */
+var tip = document.getElementById('tip');
+function showTip(html, x, y){
+  tip.innerHTML = html; tip.style.opacity = 1;
+  var w = tip.offsetWidth;
+  tip.style.left = Math.min(Math.max(8, x - w / 2), window.innerWidth - w - 8) + 'px';
+  tip.style.top = (y - tip.offsetHeight - 14) + 'px';
+}
+function hideTip(){ tip.style.opacity = 0; }
+
+function renderTiles(m){
+  var t = m.totals;
+  var defs = [
+    [t[0], 'Golfers on the grounds', 'unique visitors', false],
+    [t[1], 'Rounds played', 'visits', false],
+    [t[2], 'Holes walked', 'pages viewed', false],
+    [fmtDur(t[3]), 'Time on course', 'avg visit', true],
+    [Math.round(t[4] * 100) + '%', 'Stayed to play', 'engagement rate', true],
+    [t[5], 'First-timers', 'new visitors', false]
+  ];
+  document.getElementById('tiles').innerHTML = defs.map(function(d){
+    return '<div class="tile"><div class="n num">' + (d[3] ? d[0] : '0') + '</div><div class="lbl">' + d[1] + '</div><div class="sub">' + d[2] + '</div></div>';
+  }).join('');
+  var els = document.querySelectorAll('.tile .n');
+  defs.forEach(function(d, i){ countUp(els[i], d[0], d[3]); });
+}
+
+function renderFunnel(m){
+  var top = m.funnel[0].v || 1;
+  document.getElementById('funnel').innerHTML = m.funnel.map(function(s){
+    var pct = Math.round(s.v / top * 100);
+    return '<div class="frow"><div class="flbl">' + s.lbl + '</div>' +
+      '<div class="fbarwrap"><div class="fbar" data-w="' + Math.max(s.v / top * 100, s.v ? 1.5 : 0) + '" style="background:' + s.c + '"></div></div>' +
+      '<div class="fval"><b class="num">' + fmt(s.v) + '</b><span>' + (s === m.funnel[0] ? s.sub : pct + '% · ' + s.sub) + '</span></div></div>';
+  }).join('');
+  setTimeout(function(){
+    document.querySelectorAll('.fbar').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
+  }, 50);
+  var e = m.events;
+  var sigs = [
+    ['App Store clicks', e.app_store_click], ['Assessments finished', e.assessment_complete],
+    ['Checkout opens (events)', e.begin_checkout], ['Forms started', e.form_start]
+  ].filter(function(s){ return s[1]; });
+  document.getElementById('signals').innerHTML = sigs.map(function(s){
+    return '<span class="sig"><b class="num">' + fmt(s[1]) + '</b> ' + s[0] + '</span>';
+  }).join('');
+}
+
+function renderDaily(m){
+  var el = document.getElementById('daily');
+  var days = fillDaily(m.daily, state.range);
+  var W = Math.max(el.clientWidth - (window.innerWidth > 700 ? 56 : 36), 280), H = 210, pad = { t: 26, b: 26 };
+  var max = Math.max.apply(null, days.map(function(d){ return d.sessions; }).concat([1]));
+  var n = days.length, gap = n > 20 ? 3 : 6, bw = Math.max((W - gap * (n - 1)) / n, 3);
+  var ih = H - pad.t - pad.b;
+  var peak = days.reduce(function(a, b){ return b.sessions > a.sessions ? b : a; }, days[0]);
+  var parts = [];
+  [0.5, 1].forEach(function(f){
+    var y = pad.t + ih * (1 - f);
+    parts.push('<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="rgba(244,240,230,.07)"/>' +
+      '<text x="' + W + '" y="' + (y - 5) + '" text-anchor="end" font-size="10" fill="#8E9A85" class="num">' + Math.round(max * f) + '</text>');
+  });
+  var step = Math.max(1, Math.ceil(n / 7));
+  days.forEach(function(d, i){
+    var x = i * (bw + gap), h = Math.max(d.sessions / max * ih, d.sessions ? 2 : 1.2);
+    var y = pad.t + ih - h, r = Math.min(4, bw / 2, h);
+    var col = d.sessions ? '#D4B84A' : 'rgba(244,240,230,.10)';
+    parts.push('<path d="M' + x + ',' + (y + h) + ' L' + x + ',' + (y + r) + ' Q' + x + ',' + y + ' ' + (x + r) + ',' + y +
+      ' L' + (x + bw - r) + ',' + y + ' Q' + (x + bw) + ',' + y + ' ' + (x + bw) + ',' + (y + r) + ' L' + (x + bw) + ',' + (y + h) + ' Z" fill="' + col + '"/>');
+    if (i % step === 0) parts.push('<text x="' + (x + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="10" fill="#8E9A85">' + fmtDay(d.date) + '</text>');
+    if (d === peak && d.sessions) parts.push('<text x="' + Math.min(Math.max(x + bw / 2, 12), W - 12) + '" y="' + (y - 7) + '" text-anchor="middle" font-size="11" font-weight="600" fill="#F4F0E6" class="num">' + d.sessions + '</text>');
+    parts.push('<rect x="' + (x - gap / 2) + '" y="0" width="' + (bw + gap) + '" height="' + H + '" fill="transparent" data-i="' + i + '"/>');
+  });
+  el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Daily visits">' + parts.join('') + '</svg>';
+  el.querySelector('svg').addEventListener('mousemove', function(ev){
+    var t = ev.target.closest('rect[data-i]');
+    if (!t){ hideTip(); return; }
+    var d = days[Number(t.getAttribute('data-i'))];
+    showTip('<b>' + fmtDay(d.date) + '</b> · ' + fmt(d.sessions) + ' visit' + (d.sessions === 1 ? '' : 's') + ' · ' + fmt(d.users) + ' golfer' + (d.users === 1 ? '' : 's'), ev.clientX, ev.clientY);
+  });
+  el.querySelector('svg').addEventListener('mouseleave', hideTip);
+}
+
+function renderSources(m){
+  var top = m.sources[0] ? m.sources[0].sessions : 1;
+  var main = m.sources.slice(0, 6), rest = m.sources.slice(6);
+  var restSum = rest.reduce(function(a, s){ return a + s.sessions; }, 0);
+  if (restSum) main.push({ name: 'Everything else', sessions: restSum });
+  document.getElementById('sources').innerHTML = main.map(function(s, i){
+    return '<div class="lrow"><span class="rk num">' + (i + 1) + '</span>' +
+      '<span class="nm">' + esc(s.name) + '<span class="minibar"><i data-w="' + (s.sessions / top * 100) + '"></i></span></span>' +
+      '<span class="vv num">' + fmt(s.sessions) + '<span>VISITS</span></span></div>';
+  }).join('');
+}
+
+function renderPages(m){
+  var rows = m.pages.slice(0, 9), top = rows[0] ? rows[0].views : 1;
+  document.getElementById('pages').innerHTML = rows.map(function(p, i){
+    return '<div class="lrow"><span class="rk num">' + (i + 1) + '</span>' +
+      '<span class="nm">' + esc(pageName(p.path)) + '<i>' + esc(p.path) + '</i>' +
+      '<span class="minibar"><i data-w="' + (p.views / top * 100) + '"></i></span></span>' +
+      '<span class="vv num">' + fmt(p.views) + '<span>' + fmt(p.users) + ' GOLFERS</span></span></div>';
+  }).join('');
+}
+
+function renderShop(commas, live){
+  var c = commas || SNAP_COMMAS;
+  var collected = c.collected_cents == null ? '—' : '$' + fmt(Math.round(c.collected_cents / 100));
+  var defs = [
+    [collected, 'Collected', live && commas ? 'Commas · live' : 'Commas · awaiting first sale'],
+    ['$' + fmt((c.subscribers || 0) * 36), 'Run rate / yr', (c.subscribers || 0) + ' active subscriber' + (c.subscribers === 1 ? '' : 's')],
+    ['$36', 'The Twilight Rate', 'per year · flat'],
+    ['$34.09', 'Net per sale', 'after ~5.3% Commas fee'],
+    ['$20', 'CAC ceiling', '40% day-one margin rule'],
+    ['4', 'On the roster', 'app members · 3 lifetime']
+  ];
+  document.getElementById('shoptiles').innerHTML = defs.map(function(d){
+    return '<div class="tile"><div class="n num">' + d[0] + '</div><div class="lbl">' + d[1] + '</div><div class="sub">' + d[2] + '</div></div>';
+  }).join('');
+  document.getElementById('shopnote').textContent =
+    'Revenue reads straight from the new EGC Commas org — it opens at $0 because every dollar so far ' +
+    '(the $36 test) ran through the old shared org. First real sale lands here the moment merchant approval clears.';
+}
+
+function renderSheet(){
+  var items = [
+    ['green', 'Webhook → membership pipeline', 'Proven end-to-end in production Jul 15 — purchase activates access + welcome email, automatically.'],
+    ['gold', 'Apple review — build 3.6', 'Submitted Jul 19 · manual release armed · demo account provided. Waiting on the review email.'],
+    ['gold', 'Commas merchant approval', 'EGC org live but payment methods empty until approval clears. Account manager pinged.'],
+    ['dim', 'GHL purchase workflow → qDvjk', 'Rewire the "All Paid Invoice → EGC" trigger filter to the new product before the live test.'],
+    ['dim', '$36 live test purchase', 'Fresh email alias only — chtennant1@gmail is grandfathered lifetime and will not exercise the webhook.'],
+    ['dim', 'Flip day', 'The order is sacred: Grandfather existing members → flip price to Free → release 3.6. Back-to-back.']
+  ];
+  var CHIP = { green: 'In play', gold: 'In review', dim: 'Up next' };
+  document.getElementById('sheet').innerHTML = items.map(function(it){
+    return '<div class="item"><span class="chip ' + it[0] + '">' + CHIP[it[0]] + '</span>' +
+      '<span class="it">' + it[1] + '<i>' + it[2] + '</i></span></div>';
+  }).join('');
+}
+
+function renderAll(raw, live, commas){
+  var m = shape(raw);
+  renderTiles(m); renderFunnel(m); renderDaily(m); renderSources(m); renderPages(m);
+  renderShop(commas, live); renderSheet();
+  setTimeout(function(){
+    document.querySelectorAll('.minibar i').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
+  }, 50);
+  var dot = document.getElementById('livedot'), txt = document.getElementById('livetxt');
+  dot.classList.toggle('on', !!live);
+  dot.style.background = live ? 'var(--g3)' : 'var(--gold)';
+  txt.textContent = live ? 'Live from the grounds' : 'Snapshot · ' + SNAP_DATE;
+  document.getElementById('updated').textContent = RANGE_LABEL[state.range] +
+    (live ? ' · updated ' + new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : ' · pulled ' + SNAP_DATE + ' — live feed switches on with the Vercel env vars');
+}
+
+/* ---- data flow ---- */
+function load(){
+  renderAll(SNAP[state.range], false, null); /* instant paint from snapshot */
+  if (state.liveCache[state.range]){
+    var c = state.liveCache[state.range];
+    renderAll(c, true, c.commas);
+    return;
+  }
+  fetch('/api/dash?range=' + state.range + '&pass=' + encodeURIComponent(state.pass))
+    .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(function(d){ state.liveCache[state.range] = d; renderAll(d, true, d.commas); })
+    .catch(function(){ /* snapshot already painted */ });
+}
+
+/* ---- gate ---- */
+var gate = document.getElementById('gate'), gatecard = document.getElementById('gatecard'),
+    gkey = document.getElementById('gkey');
+function unlock(){
+  gate.classList.add('leaving');
+  setTimeout(function(){ gate.classList.add('off'); }, 650);
+  load();
+}
+function tryKey(){
+  var v = gkey.value;
+  sha256(norm(v)).then(function(h){
+    if (h === PASS_HASH){
+      state.pass = v; localStorage.setItem(PASS_STORE, v); unlock();
+    } else {
+      gatecard.classList.remove('no'); void gatecard.offsetWidth; gatecard.classList.add('no');
+      gkey.select();
+    }
+  });
+}
+document.getElementById('gform').addEventListener('submit', function(e){ e.preventDefault(); tryKey(); });
+
+/* ---- range tabs ---- */
+document.getElementById('ranges').addEventListener('click', function(e){
+  var b = e.target.closest('.rbtn');
+  if (!b) return;
+  document.querySelectorAll('.rbtn').forEach(function(x){ x.classList.remove('on'); });
+  b.classList.add('on');
+  state.range = b.getAttribute('data-range');
+  load();
+});
+
+/* ---- reveal on scroll ---- */
+var io = new IntersectionObserver(function(es){
+  es.forEach(function(en){ if (en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(function(el){ io.observe(el); });
+
+/* ---- redraw chart on resize ---- */
+var rz;
+window.addEventListener('resize', function(){
+  clearTimeout(rz);
+  rz = setTimeout(function(){
+    var c = state.liveCache[state.range];
+    if (c) renderDaily(shape(c)); else renderDaily(shape(SNAP[state.range]));
+  }, 200);
+});
+
+/* ---- boot ---- */
+if (state.pass){
+  sha256(norm(state.pass)).then(function(h){
+    if (h === PASS_HASH){ gate.classList.add('off'); load(); }
+    else { localStorage.removeItem(PASS_STORE); state.pass = ''; gkey.focus(); }
+  });
+} else {
+  gkey.focus();
+}
+</script>
+</body>
+</html>

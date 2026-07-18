@@ -13,7 +13,12 @@ const input = {
   checkout: resolve(__dirname, 'checkout.html'),
   'thank-you': resolve(__dirname, 'thank-you.html'),
   account: resolve(__dirname, 'account.html'),
+  dashboard: resolve(__dirname, 'dashboard.html'),
 };
+
+// /dashboard is Cameron's private reporting page — keep GA4/Pixel off it so
+// checking the numbers never inflates the numbers.
+const skipTracking = (ctx) => ctx.filename && ctx.filename.endsWith('dashboard.html');
 
 // Auto-include every blog page — drop a blog/<slug>.html file and it ships.
 const blogDir = resolve(__dirname, 'blog');
@@ -27,7 +32,8 @@ if (existsSync(blogDir)) {
 const GA_ID = 'G-5KD888CEP2';
 const googleAnalytics = {
   name: 'inject-ga4',
-  transformIndexHtml() {
+  transformIndexHtml(html, ctx) {
+    if (skipTracking(ctx)) return [];
     return [
       {
         tag: 'script',
@@ -57,7 +63,8 @@ const googleAnalytics = {
 const FB_ID = '27839343388989480';
 const metaPixel = {
   name: 'inject-meta-pixel',
-  transformIndexHtml() {
+  transformIndexHtml(html, ctx) {
+    if (skipTracking(ctx)) return [];
     return [
       {
         tag: 'script',
