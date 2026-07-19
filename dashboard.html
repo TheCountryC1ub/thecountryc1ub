@@ -48,7 +48,7 @@
     --bg:#0E2117;--bg-2:#0A1A12;--panel:#16311F;--panel-2:#1C3B27;
     --ink:#F4F0E6;--ink-2:#C9CDBB;--muted:#8E9A85;
     --gold:#D4B84A;--gold-dim:#B8972A;--gold-deep:#8B6E1E;
-    --g1:#B9D8C2;--g2:#8FBE9B;--g3:#63A175;--g4:#3F8557;
+    --g1:#B9D8C2;--g1b:#A4CBAF;--g2:#8FBE9B;--g2b:#79B088;--g3:#63A175;--g4:#3F8557;
     --line:rgba(212,184,74,.16);--line-2:rgba(244,240,230,.10);
     --serif:"Playfair Display",Georgia,serif;
     --sans:"DM Sans",system-ui,-apple-system,sans-serif;
@@ -463,7 +463,9 @@ function shape(raw){
     pages: pages, sources: sources,
     funnel: [
       { lbl: 'On the grounds', sub: 'unique visitors', v: raw.totals[0], c: 'var(--g1)' },
-      { lbl: 'Read the Story', sub: '/story', v: u('/story'), c: 'var(--g2)' },
+      { lbl: 'Took the Assessment', sub: '/assessment', v: u('/assessment'), c: 'var(--g1b)' },
+      { lbl: 'Finished the Assessment', sub: 'completions', v: (raw.events || {}).assessment_complete || 0, c: 'var(--g2)' },
+      { lbl: 'Read the Story', sub: '/story', v: u('/story'), c: 'var(--g2b)' },
       { lbl: 'Into the Pro Shop', sub: '/checkout', v: u('/checkout'), c: 'var(--g3)' },
       { lbl: 'Reached the welcome mat', sub: '/thank-you', v: u('/thank-you'), c: 'var(--g4)' },
       { lbl: 'Purchases', sub: 'test swings so far', v: (raw.events || {}).purchase || 0, c: 'var(--gold)' }
@@ -529,7 +531,7 @@ function renderFunnel(m){
   }, 50);
   var e = m.events;
   var sigs = [
-    ['App Store clicks', e.app_store_click], ['Assessments finished', e.assessment_complete],
+    ['App Store clicks', e.app_store_click],
     ['Checkout opens (events)', e.begin_checkout], ['Forms started', e.form_start]
   ].filter(function(s){ return s[1]; });
   document.getElementById('signals').innerHTML = sigs.map(function(s){
