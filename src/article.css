@@ -42,6 +42,10 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 .post__hero img { width: 100%; height: auto; display: block; border-radius: 12px; box-shadow: 0 24px 50px -24px rgba(26,58,42,0.45); }
 .post__hero figcaption { margin-top: 0.7rem; text-align: center; font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--text-3); }
 
+.post__figure { margin: 2.6rem 0; }
+.post__figure img { width: 100%; height: auto; display: block; border-radius: 12px; box-shadow: 0 24px 50px -24px rgba(26,58,42,0.45); }
+.post__figure figcaption { margin-top: 0.7rem; text-align: center; font-family: var(--serif); font-style: italic; font-size: 0.85rem; color: var(--text-3); }
+
 /* ---- article body ---- */
 .post__body p, .post__body li {
   font-family: var(--sans); font-weight: 300;
