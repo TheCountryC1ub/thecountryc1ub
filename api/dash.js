@@ -4,7 +4,11 @@
      GA4_CLIENT_ID, GA4_CLIENT_SECRET, GA4_REFRESH_TOKEN — OAuth for the GA4 Data API
      GA4_DASH_PROPERTY_ID — GA4 property (EGC = 544196923, the default below)
      DASHBOARD_PASS       — the page password
-     COMMAS_API_KEY       — optional; EGC-org Commas key for subscriber/transaction tiles
+     COMMAS_API_KEY       — optional; TCC-org Commas key for subscriber/transaction tiles
+                            (EGC sells through The Country Club org since 2026-07-21;
+                            queries are product-scoped so C1ub sales never leak in)
+     COMMAS_PRODUCT_IDS   — optional; comma-separated product IDs to count
+                            (default "Npgn8"; add qDvjk if the EGC org ever goes live)
    Returns only aggregated numbers — raw credentials never reach the client.
    Sibling of thecountryc1ub-site/api/stats.js, reshaped for EGC + ESM (repo is type:module). */
 
@@ -33,29 +37,36 @@ const norm = (s) => String(s || '').trim().toLowerCase().replace(/\s+/g, '');
 async function commasSnapshot() {
   const key = process.env.COMMAS_API_KEY;
   if (!key) return null;
+  const productIds = (process.env.COMMAS_PRODUCT_IDS || 'Npgn8')
+    .split(',').map((s) => s.trim()).filter(Boolean);
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), 4000);
   try {
     const opts = { headers: { 'x-api-key': key }, signal: ctrl.signal };
-    const [subsR, txR] = await Promise.all([
-      fetch('https://www.fanbasis.com/public-api/subscribers?per_page=1', opts),
-      fetch('https://www.fanbasis.com/public-api/checkout-sessions/transactions?per_page=50', opts),
-    ]);
-    if (!subsR.ok || !txR.ok) return null;
-    const subs = (await subsR.json()).data;
-    const tx = (await txR.json()).data;
-    const txs = tx.transactions || [];
-    let cents = 0;
+    const out = { subscribers: 0, transactions: 0, collected_cents: 0 };
     let known = true;
-    for (const t of txs) {
-      const v = t.amount_cents ?? (t.amount != null ? Math.round(parseFloat(t.amount) * 100) : NaN);
-      if (Number.isFinite(v)) cents += v; else known = false;
+    for (const pid of productIds) {
+      const [subsR, txR] = await Promise.all([
+        fetch('https://www.fanbasis.com/public-api/subscribers?per_page=1&product_id=' + encodeURIComponent(pid), opts),
+        fetch('https://www.fanbasis.com/public-api/checkout-sessions/transactions?per_page=100&product_id=' + encodeURIComponent(pid), opts),
+      ]);
+      if (!subsR.ok || !txR.ok) return null;
+      const subs = (await subsR.json()).data;
+      const tx = (await txR.json()).data;
+      const txs = tx.transactions || [];
+      out.subscribers += subs.pagination?.total_items ?? 0;
+      out.transactions += tx.pagination?.total_items ?? txs.length;
+      for (const t of txs) {
+        const v = t.amount_cents ?? (t.amount != null ? Math.round(parseFloat(t.amount) * 100) : NaN);
+        if (!Number.isFinite(v)) { known = false; continue; }
+        /* net of refunds — a refunded test purchase shouldn't count as money collected */
+        const refunded = (t.refunds || []).reduce((s, r) => s + Math.round(parseFloat(r.amount || 0) * 100), 0);
+        out.collected_cents += Math.max(0, v - refunded);
+      }
+      /* per_page=100 covers early days; add pagination before ~100 tx/product */
     }
-    return {
-      subscribers: subs.pagination?.total_items ?? 0,
-      transactions: tx.pagination?.total_items ?? txs.length,
-      collected_cents: known ? cents : null,
-    };
+    if (!known) out.collected_cents = null;
+    return out;
   } catch {
     return null;
   } finally {
