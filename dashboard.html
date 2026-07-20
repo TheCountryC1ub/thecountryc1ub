@@ -611,18 +611,18 @@ function renderShop(commas, live){
     return '<div class="tile"><div class="n num">' + d[0] + '</div><div class="lbl">' + d[1] + '</div><div class="sub">' + d[2] + '</div></div>';
   }).join('');
   document.getElementById('shopnote').textContent =
-    'Revenue reads straight from the new EGC Commas org — it opens at $0 because every dollar so far ' +
-    '(the $36 test) ran through the old shared org. First real sale lands here the moment merchant approval clears.';
+    'Revenue reads live from Commas — scoped to the EGC product on The Country Club org, net of refunds. ' +
+    'It opens at $0 because both $36 test purchases were (or will be) refunded. The first real member starts the count.';
 }
 
 function renderSheet(){
   var items = [
-    ['green', 'Webhook → membership pipeline', 'Proven end-to-end in production Jul 15 — purchase activates access + welcome email, automatically.'],
-    ['gold', 'Apple review — build 3.6', 'Submitted Jul 19 · manual release armed · demo account provided. Waiting on the review email.'],
-    ['gold', 'Commas merchant approval', 'EGC org live but payment methods empty until approval clears. Account manager pinged.'],
-    ['dim', 'GHL purchase workflow → qDvjk', 'Rewire the "All Paid Invoice → EGC" trigger filter to the new product before the live test.'],
-    ['dim', '$36 live test purchase', 'Fresh email alias only — chtennant1@gmail is grandfathered lifetime and will not exercise the webhook.'],
-    ['dim', 'Flip day', 'The order is sacred: Grandfather existing members → flip price to Free → release 3.6. Back-to-back.']
+    ['green', 'Payments LIVE — via The Country Club org', 'Switched Jul 21 (EGC-org approval stalled). Checkout, webhook + product guard, Zapier filter, pixels — all rebuilt on TCC rails in one day.'],
+    ['green', '$36 live test — passed end-to-end', 'Pay → membership active → welcome email → GA4/Meta purchase, all automatic. Refunded after. The machine works.'],
+    ['gold', 'Apple review — build 3.6', 'Submitted Jul 19 · manual release armed · demo account provided. Waiting on the review email. The only gate left.'],
+    ['dim', 'Refund auto-revoke', 'Webhook subscription needs the refund.created event added (Replit run queued) — refunds currently need a manual deactivate in /admin.'],
+    ['dim', 'Flip day', 'The order is sacred: Grandfather existing members → flip price to Free → release 3.6. Back-to-back.'],
+    ['dim', 'EGC-org switch-back', 'Someday-maybe: if Commas ever approves the EGC org, move sales back for clean receipt branding. Config preserved in git.']
   ];
   var CHIP = { green: 'In play', gold: 'In review', dim: 'Up next' };
   document.getElementById('sheet').innerHTML = items.map(function(it){
