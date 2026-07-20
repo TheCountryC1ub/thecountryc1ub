@@ -45,6 +45,7 @@
   .hero__kicker{font-family:var(--sans);font-weight:500;font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:1.1rem}
   .hero__headline{font-family:var(--serif);font-weight:400;font-size:clamp(2.1rem,5.6vw,3.2rem);line-height:1.08;letter-spacing:-.01em;color:var(--text)}
   .hero__dek{font-family:var(--serif);font-style:italic;font-weight:700;font-size:clamp(1.2rem,2.4vw,1.45rem);line-height:1.4;color:var(--gold-dim);margin:1rem auto 0;max-width:34ch}
+  .hero__for{font-family:var(--sans);font-weight:400;font-size:1.02rem;color:var(--text-2);margin:.9rem auto 0;max-width:44ch}
 
   .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(18px,4vw,28px);position:relative;z-index:5}
   .cols{display:grid;grid-template-columns:480px 1fr;gap:28px;align-items:start}
@@ -78,7 +79,7 @@
   .paycard{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 26px 70px rgba(26,58,42,.12);overflow:hidden;position:relative}
   .paycard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:2}
   .order{padding:26px 26px 22px;border-bottom:1px solid var(--border);text-align:center}
-  .order__planname{font-family:var(--sans);font-weight:500;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);margin-bottom:14px}
+  .order__planname{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,2.6vw,1.4rem);letter-spacing:.04em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
 
   /* price block — echoes the .adv__price treatment from /story */
   .price-block{display:flex;flex-direction:column;align-items:center;gap:.3rem}
@@ -90,7 +91,8 @@
     text-decoration:line-through;text-decoration-color:var(--gold-dim);text-decoration-thickness:2px}
   .price-block__amt{font-family:var(--serif);font-size:clamp(2.1rem,5.5vw,2.7rem);line-height:1;color:var(--green)}
   .price-block__amt small{font-size:.34em;color:var(--text-3);font-family:var(--sans);font-weight:400}
-  .price-block__note{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);margin-top:.3rem}
+  .price-block__note{font-size:.92rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-top:.4rem}
+  .price-block__cycle{font-family:var(--sans);font-weight:400;font-size:.85rem;color:var(--text-3);margin-top:.35rem}
   .platform-note{margin-top:16px;padding-top:14px;border-top:1px dashed var(--border);font-size:.95rem;color:var(--text-2);text-align:center}
   .platform-note b{color:var(--green);font-weight:600}
 
@@ -160,8 +162,9 @@
 
 <div class="hero">
   <p class="hero__kicker">Elite Golf Consulting Membership</p>
-  <h1 class="hero__headline">Let's Master The Game.</h1>
+  <h1 class="hero__headline">Let's Master The Game Together.</h1>
   <p class="hero__dek">It's not you vs. the other guy. It's all of us vs. the course.</p>
+  <p class="hero__for">For every golfer, at every level — one system to improve your game.</p>
 </div>
 
 <div class="wrap">
@@ -178,6 +181,7 @@
               <span class="price-block__amt" id="oPrice">$36<small> /yr</small></span>
             </span>
             <span class="price-block__note" id="oNote">One dollar · every stroke on the front nine</span>
+            <span class="price-block__cycle">Billed every 365 days · cancel anytime</span>
           </div>
           <div class="platform-note">📱 <b>iPhone (iOS) only, for now</b> — Android is coming later.</div>
         </div>
@@ -209,9 +213,9 @@
       </div>
 
       <div class="panel promise">
-        <h2>Even Par</h2>
+        <h2>Under Par</h2>
         <p class="pull">Everyone else is chasing perfection. We're chasing progress.</p>
-        <p><span class="dropcap">E</span>very stroke you save is one you earned — with a system built from real competitive golf, not a generic tip feed. The 9 Pillars show you exactly where you're losing shots. Ask-a-Pro puts real players in your corner between rounds.</p>
+        <p><span class="dropcap">E</span>very stroke you save is one you earned — with a system built from real competitive golf, not a generic tip feed. The 9 Pillars show you exactly where you're losing shots. Ask-a-Pro puts real players in your corner between rounds. Whether you're trying to break 100 for the first time or chasing scratch, the system meets your game where it is.</p>
         <p>"11 years ago, I was living in a van — chasing The Masters." That's where this program came from. Elite Golf Consulting is what I wish I'd had.</p>
 
         <div class="proof-grid">
@@ -235,6 +239,10 @@
     <div class="panel">
       <h2>Quick answers</h2>
       <div class="mfaq">
+        <details>
+          <summary>Who is this for?</summary>
+          <p>Every golfer who wants to improve — whether you're breaking 100 for the first time or grinding toward scratch. The 9 Pillars measure your game, so the program starts wherever your game actually is.</p>
+        </details>
         <details>
           <summary>What do I get access to?</summary>
           <p>The full Elite Golf Consulting app: the 9 Pillars performance program, round/stat/practice/mindset tracking, and Ask-a-Pro — where you can put your questions directly to elite and pro players.</p>
