@@ -263,29 +263,32 @@
 
 <footer>
   <a class="foot-link" href="https://get.elitegolfconsulting.com">← Back to Elite Golf Consulting</a>
-  <p class="legal">Payments processed securely by Commas</p>
+  <p class="legal">Payments processed securely by Commas · Your card statement will show "The Country Club," our parent club</p>
 </footer>
 
 <script>
 (function(){
   /* ================= COMMAS (ex-FANBASIS) CONFIG =================
      Single product: "Elite Golf Consulting (9 Hole Twilight Rate)", $36/yr flat,
-     recurring, product ID qDvjk — lives in the dedicated EGC organization on
-     Commas (2026-07-15; replaces the old TCC-org product Npgn8).
+     recurring, product ID Npgn8 — sold through The Country Club organization on
+     Commas (switched back 2026-07-21: the dedicated EGC org, product qDvjk,
+     is still awaiting Commas merchant approval; its config is preserved in git
+     history for a switch-back once approved). Buyer's card statement therefore
+     shows "The Country Club" — expectation copy in the footer + thank-you page.
      - Embed uses Commas' official SDK (cdn.embedded.fanbasis.io/embed/index.js,
-       docs: apidocs.fan). creatorId = the EGC org handle; sessionSecret = the
-       EGC-org checkout session secret (public-by-design, NOT the API key;
-       session ID 845356). If the SDK fails to load or errors, the buyer gets
-       the hosted-payment-link button instead — never a dead end.
+       docs: apidocs.fan). creatorId = the TCC org handle; sessionSecret = the
+       TCC checkout session secret (public-by-design, NOT the API key). If the
+       SDK fails to load or errors, the buyer gets the hosted-payment-link
+       button instead — never a dead end.
      When the $72 "Even Par" tier ships later, restore the plan-toggle version
      of this file (see git history) rather than bolting a second price onto
      this simplified single-plan structure. */
   var FANBASIS = {
-    creatorId: "elite-golf-consulting",
-    sessionSecret: "ddaede9d-70f0-4634-a333-e9a7cf49d828",
-    productId: "qDvjk"
+    creatorId: "the-country-c1ub",
+    sessionSecret: "06c73965-c5fe-47b7-8f19-c196ca4c21aa",
+    productId: "Npgn8"
   };
-  var LINK = "https://commas.com/checkout/qDvjkIkvngP6RK"; // hosted payment link for qDvjk (EGC org) — fallback if the embed can't load
+  var LINK = "https://commas.com/checkout/Npgn8vuHkpov7eG"; // hosted payment link for Npgn8 (TCC org) — fallback if the embed can't load
 
   /* Post-payment destination — where to send them once Fanbasis confirms payment.
      Tells them to download the app + log in with the same email. */
