@@ -20,11 +20,14 @@ const input = {
 // checking the numbers never inflates the numbers.
 const skipTracking = (ctx) => ctx.filename && ctx.filename.endsWith('dashboard.html');
 
-// Auto-include every blog page — drop a blog/<slug>.html file and it ships.
-const blogDir = resolve(__dirname, 'blog');
-if (existsSync(blogDir)) {
-  for (const f of readdirSync(blogDir)) {
-    if (f.endsWith('.html')) input['blog-' + f.replace(/\.html$/, '')] = resolve(blogDir, f);
+// Auto-include every page in these content dirs — drop a <dir>/<slug>.html file and it ships.
+// blog = articles · mentor = EGC coach profiles · pro = EGC playing-pro profiles
+for (const dir of ['blog', 'mentor', 'pro']) {
+  const abs = resolve(__dirname, dir);
+  if (existsSync(abs)) {
+    for (const f of readdirSync(abs)) {
+      if (f.endsWith('.html')) input[dir + '-' + f.replace(/\.html$/, '')] = resolve(abs, f);
+    }
   }
 }
 
