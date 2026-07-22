@@ -123,6 +123,15 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
   justify-content: center;
   align-items: flex-start;
 }
+.adv__figlink {
+  display: block;
+  border-radius: 12px;
+  transition: transform 0.3s var(--ease, ease), box-shadow 0.3s var(--ease, ease);
+}
+.adv__figlink:hover { transform: translateY(-3px); }
+.adv__figlink:hover img { box-shadow: 0 30px 60px -22px rgba(184, 151, 42, 0.55); }
+.adv__figure--phones .adv__figlink { width: 31%; border-radius: 16px; }
+.adv__figure--phones .adv__figlink img { width: 100%; }
 .adv__figure--phones img {
   width: 31%;
   border-radius: 16px;
