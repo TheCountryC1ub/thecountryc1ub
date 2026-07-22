@@ -13,6 +13,9 @@
 <!-- start fetching the Commas embed SDK immediately, in parallel with everything
      else, instead of only after our own JS runs -->
 <link rel="preload" as="script" href="https://cdn.embedded.fanbasis.io/embed/index.js">
+<!-- warm up the iframe origin too (DNS+TLS) — the embed itself loads from
+     embedded.fanbasis.io, a different host than the SDK's cdn. -->
+<link rel="preconnect" href="https://embedded.fanbasis.io">
 <style>
   :root{
     --green:#1A3A2A;--green-mid:#2C5C3E;--green-light:#3D7A54;
@@ -102,11 +105,20 @@
      and tighten then so the form never scrolls internally. */
   #payframe-holder iframe{width:100%;height:720px;border:0;display:block}
   @media(max-width:700px){#payframe-holder iframe{height:860px}}
-  .pay-loading{padding:80px 30px;text-align:center}
-  .pay-loading .spinner{width:34px;height:34px;margin:0 auto 18px;border-radius:50%;
-    border:3px solid rgba(26,58,42,.12);border-top-color:var(--gold);animation:spin .8s linear infinite}
-  .pay-loading p{color:var(--text-2);font-weight:300;font-size:.98rem}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  /* skeleton of the payment form — reserves the shape of the real fields so
+     the embed "arrives" instead of popping into empty space */
+  .pay-loading{padding:34px 30px 30px}
+  .skel{position:relative;overflow:hidden;background:rgba(26,58,42,.08);border-radius:6px}
+  .skel::after{content:"";position:absolute;inset:0;transform:translateX(-100%);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.6),transparent);animation:shimmer 1.4s infinite}
+  @keyframes shimmer{100%{transform:translateX(100%)}}
+  @media(prefers-reduced-motion:reduce){.skel::after{animation:none}}
+  .skel-label{height:10px;width:38%;margin-bottom:8px}
+  .skel-field{height:44px;margin-bottom:20px}
+  .skel-row{display:flex;gap:14px}
+  .skel-row>div{flex:1}
+  .skel-btn{height:48px;background:rgba(184,151,42,.28);margin-top:2px}
+  .pay-loading p{color:var(--text-3);font-weight:300;font-size:.9rem;text-align:center;margin-top:16px}
   .pay-fallback{padding:40px 30px 44px;text-align:center}
   .pay-fallback .lockicon{font-size:1.7rem;margin-bottom:12px}
   .pay-fallback h3{font-family:var(--serif);font-size:1.12rem;margin-bottom:10px;color:var(--green)}
@@ -190,8 +202,16 @@
                ~1-2s) — this is a genuine loading state, NOT the error
                fallback (that's injected by JS only if the embed actually
                fails; see showLinkFallback in the script below). -->
-          <div class="pay-loading" id="payLoading">
-            <div class="spinner"></div>
+          <div class="pay-loading" id="payLoading" aria-hidden="true">
+            <div class="skel skel-label"></div>
+            <div class="skel skel-field"></div>
+            <div class="skel skel-label"></div>
+            <div class="skel skel-field"></div>
+            <div class="skel-row">
+              <div><div class="skel skel-label"></div><div class="skel skel-field"></div></div>
+              <div><div class="skel skel-label"></div><div class="skel skel-field"></div></div>
+            </div>
+            <div class="skel skel-btn"></div>
             <p>Preparing secure payment&hellip;</p>
           </div>
         </div>

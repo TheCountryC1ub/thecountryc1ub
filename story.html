@@ -57,6 +57,9 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- /story is the step before /checkout — pre-cache the Commas embed SDK so
+       the payment form mounts faster when they get there -->
+  <link rel="prefetch" href="https://cdn.embedded.fanbasis.io/embed/index.js" as="script" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
 </head>
 <body class="adv-body">
