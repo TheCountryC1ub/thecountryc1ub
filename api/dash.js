@@ -104,7 +104,8 @@ export default async function handler(req, res) {
           { dateRanges,
             dimensions: [{ name: 'pagePath' }],
             metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
-            orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }], limit: 40 },
+            /* 100 so low-traffic /mentor + /pro rows reach the dashboard's profile panel */
+            orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }], limit: 100 },
           { dateRanges,
             dimensions: [{ name: 'sessionSourceMedium' }],
             metrics: [{ name: 'sessions' }],

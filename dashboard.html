@@ -305,6 +305,28 @@
   </div>
 </section>
 
+<!-- ===== RANGE REPORT (top articles) + TEACHING STAFF (mentor/pro) ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="cols">
+      <div class="reveal">
+        <div class="sec-head">
+          <span class="eyebrow">The Range Report</span>
+          <h2>Which lessons are landing.</h2>
+        </div>
+        <div class="panel rowlist" id="blogtop"></div>
+      </div>
+      <div class="reveal">
+        <div class="sec-head">
+          <span class="eyebrow">The Teaching Staff</span>
+          <h2>The Mentor &amp; The Pro.</h2>
+        </div>
+        <div class="panel rowlist" id="profiles"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ===== PRO SHOP ===== -->
 <section class="sec" style="padding-top:0">
   <div class="wrap">
@@ -379,8 +401,12 @@ var SNAP_COMMAS = { subscribers: 0, transactions: 0, collected_cents: 0 };
 var PAGE_NAMES = {
   '/': 'The Front Gate', '/story': 'The Story', '/checkout': 'The Pro Shop',
   '/thank-you': 'Welcome In', '/assessment': 'The Assessment', '/account': 'The Locker Room',
-  '/partners': 'The Partners', '/blog': 'The Practice Range'
+  '/partners': 'The Partners', '/blog': 'The Practice Range',
+  '/mentor': 'The Mentor — front page', '/pro': 'The Pro — front page'
 };
+/* profile pages always shown on the Teaching Staff panel, even at zero walks;
+   any new /mentor/* or /pro/* page found in the feed joins the list automatically */
+var PROFILE_PAGES = ['/mentor', '/mentor/ryan-byers', '/pro', '/pro/matt-siporin'];
 var RANGE_LABEL = { season: 'The Season · since Jul 1, 2026', '28d': 'Last 28 days', '7d': 'Last 7 days' };
 var RANGE_START = { season: '2026-07-01', '28d': -28, '7d': -7 };
 var PASS_HASH = 'b414ad87d5ccab8999b6580168efdf31a94e2d83953312337aacb67651df066e';
@@ -407,11 +433,12 @@ function canon(path){
   if (p.length > 1 && p.slice(-1) === '/') p = p.slice(0, -1);
   return p;
 }
+function tc(slug){ return slug.replace(/-/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
 function pageName(p){
   if (PAGE_NAMES[p]) return PAGE_NAMES[p];
-  if (p.indexOf('/blog/') === 0){
-    return 'Range · ' + p.slice(6).replace(/-/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
-  }
+  if (p.indexOf('/blog/') === 0) return 'Range · ' + tc(p.slice(6));
+  if (p.indexOf('/mentor/') === 0) return tc(p.slice(8)) + ' · The Mentor';
+  if (p.indexOf('/pro/') === 0) return tc(p.slice(5)) + ' · The Pro';
   return p;
 }
 function srcName(s){
@@ -596,6 +623,42 @@ function renderPages(m){
   }).join('');
 }
 
+function renderBlogTop(m){
+  var posts = m.pages.filter(function(p){ return p.path.indexOf('/blog/') === 0; }).slice(0, 5);
+  var el = document.getElementById('blogtop');
+  if (!posts.length){
+    el.innerHTML = '<div class="lrow"><span class="nm" style="color:var(--muted)">No range sessions on the books in this window yet.</span></div>';
+    return;
+  }
+  var top = posts[0].views || 1;
+  el.innerHTML = posts.map(function(p, i){
+    return '<div class="lrow"><span class="rk num">' + (i + 1) + '</span>' +
+      '<span class="nm">' + esc(tc(p.path.slice(6))) + '<i>' + esc(p.path) + '</i>' +
+      '<span class="minibar"><i data-w="' + (p.views / top * 100) + '"></i></span></span>' +
+      '<span class="vv num">' + fmt(p.views) + '<span>' + fmt(p.users) + ' GOLFERS</span></span></div>';
+  }).join('');
+}
+
+function renderProfiles(m){
+  var map = {};
+  m.pages.forEach(function(p){ map[p.path] = p; });
+  var paths = PROFILE_PAGES.slice();
+  m.pages.forEach(function(p){
+    if ((p.path.indexOf('/mentor/') === 0 || p.path.indexOf('/pro/') === 0) && paths.indexOf(p.path) === -1) paths.push(p.path);
+  });
+  var rows = paths.map(function(path){
+    var f = map[path];
+    return { path: path, views: f ? f.views : 0, users: f ? f.users : 0 };
+  }).sort(function(a, b){ return b.views - a.views; });
+  var top = rows[0] && rows[0].views ? rows[0].views : 1;
+  document.getElementById('profiles').innerHTML = rows.map(function(p, i){
+    return '<div class="lrow"><span class="rk num">' + (i + 1) + '</span>' +
+      '<span class="nm">' + esc(pageName(p.path)) + '<i>' + esc(p.path) + '</i>' +
+      '<span class="minibar"><i data-w="' + (p.views / top * 100) + '"></i></span></span>' +
+      '<span class="vv num">' + fmt(p.views) + '<span>' + fmt(p.users) + ' GOLFERS</span></span></div>';
+  }).join('');
+}
+
 function renderShop(commas, live){
   var c = commas || SNAP_COMMAS;
   var collected = c.collected_cents == null ? '—' : '$' + fmt(Math.round(c.collected_cents / 100));
@@ -634,7 +697,7 @@ function renderSheet(){
 function renderAll(raw, live, commas){
   var m = shape(raw);
   renderTiles(m); renderFunnel(m); renderDaily(m); renderSources(m); renderPages(m);
-  renderShop(commas, live); renderSheet();
+  renderBlogTop(m); renderProfiles(m); renderShop(commas, live); renderSheet();
   setTimeout(function(){
     document.querySelectorAll('.minibar i').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
   }, 50);
