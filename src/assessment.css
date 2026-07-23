@@ -143,6 +143,26 @@ html { -webkit-text-size-adjust: 100%; }
   color: rgba(244, 240, 230, 0.6);
   margin: -0.3rem 0 0.6rem;
 }
+.qz-quote {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(244, 240, 230, 0.72);
+  max-width: 42ch;
+  margin: 0.65rem auto 0;
+}
+.qz-quote span {
+  display: block;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+  margin-top: 0.35rem;
+}
 .qz-fine {
   margin-top: 1.1rem;
   font-size: 0.78rem;

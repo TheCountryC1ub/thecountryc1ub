@@ -14,6 +14,7 @@ const STEPS = [
     dek: 'Understand your game — and your mind. Answer 11 quick questions and get your personalized path to lower scores.',
     fine: 'Free · No email required · About 60 seconds',
     title: 'What would you like to achieve?',
+    quote: 'The more aware you are about your game & goals the faster you will improve.',
     options: ['Break 100', 'Break 90', 'Break 80', 'Break 70', 'Compete in big tournaments', 'Play on the PGA Tour'],
   },
   {
@@ -60,6 +61,28 @@ function el(tag, cls, text) {
   return n;
 }
 
+/* Soft "tock" on every answer tap — synthesized with Web Audio (no file to
+   load). Context is created lazily inside the first click, which is the user
+   gesture browsers require before allowing sound. */
+let clickCtx = null;
+function playClick() {
+  try {
+    clickCtx = clickCtx || new (window.AudioContext || window.webkitAudioContext)();
+    if (clickCtx.state === 'suspended') clickCtx.resume();
+    const t = clickCtx.currentTime;
+    const osc = clickCtx.createOscillator();
+    const gain = clickCtx.createGain();
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(1900, t);
+    osc.frequency.exponentialRampToValueAtTime(720, t + 0.055);
+    gain.gain.setValueAtTime(0.11, t);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.085);
+    osc.connect(gain).connect(clickCtx.destination);
+    osc.start(t);
+    osc.stop(t + 0.09);
+  } catch (_) { /* sound is decoration — never block the funnel */ }
+}
+
 function show(i, dir = 1) {
   current = i;
   setProgress();
@@ -73,6 +96,11 @@ function show(i, dir = 1) {
       card.append(el('h1', 'qz-title qz-title--intro', step.heading));
       card.append(el('p', 'qz-dek', step.dek));
       card.append(el('h2', 'qz-question', step.title));
+      if (step.quote) {
+        const q = el('p', 'qz-quote', `“${step.quote}”`);
+        q.append(el('span', null, '— Founder'));
+        card.append(q);
+      }
     } else {
       card.append(el('p', 'qz-kicker', `Question ${i + 1} of ${QUESTION_COUNT}`));
       card.append(el('h1', 'qz-title', step.title));
@@ -85,6 +113,7 @@ function show(i, dir = 1) {
         const b = el('button', 'qz-option', label);
         b.type = 'button';
         b.addEventListener('click', () => {
+          playClick();
           answers[step.key] = label;
           b.classList.add('is-picked');
           setTimeout(() => advance(i), 260);
@@ -113,6 +142,7 @@ function show(i, dir = 1) {
       const next = el('button', 'qz-btn', 'Continue');
       next.type = 'button';
       next.addEventListener('click', () => {
+        playClick();
         answers[step.key] = Number(input.value);
         advance(i);
       });
@@ -125,7 +155,7 @@ function show(i, dir = 1) {
     } else if (i > 0) {
       const back = el('button', 'qz-back', '← Back');
       back.type = 'button';
-      back.addEventListener('click', () => show(i - 1, -1));
+      back.addEventListener('click', () => { playClick(); show(i - 1, -1); });
       card.append(back);
     }
   }
