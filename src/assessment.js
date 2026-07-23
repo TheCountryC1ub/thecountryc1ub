@@ -11,7 +11,7 @@ const STEPS = [
     type: 'options', key: 'goal', landing: true,
     kicker: 'Complimentary Golf Assessment',
     heading: 'Shoot 4–8 shots better.',
-    dek: 'Understand your game — and your mind. Answer 12 quick questions and get your personalized path to lower scores.',
+    dek: 'Understand your game — and your mind. Answer 11 quick questions and get your personalized path to lower scores.',
     fine: 'Free · No email required · About 60 seconds',
     title: 'What would you like to achieve?',
     options: ['Break 100', 'Break 90', 'Break 80', 'Break 70', 'Compete in big tournaments', 'Play on the PGA Tour'],
@@ -29,7 +29,6 @@ const STEPS = [
   { type: 'slider', key: 'putting',   title: 'How would you rate your putting?' },
   { type: 'slider', key: 'putt_short', title: 'Short putts?', sub: 'Inside 6 feet' },
   { type: 'slider', key: 'putt_long',  title: 'Long putts?', sub: 'Outside 25 feet' },
-  { type: 'slider', key: 'putt_mid',   title: 'Mid-range putts?', sub: '10–25 feet' },
   {
     type: 'options', key: 'coaching',
     title: 'Have you gotten golf consulting before — from top players or a pro golfer?',
@@ -148,7 +147,7 @@ function advance(i) {
    (importable into Google Ads once the accounts are linked);
    assessment_complete carries the answers as params for free segment data. */
 function fireConversion() {
-  const sliderKeys = ['overall', 'tee', 'irons', 'wedges', 'chipping', 'putting', 'putt_short', 'putt_long', 'putt_mid'];
+  const sliderKeys = ['overall', 'tee', 'irons', 'wedges', 'chipping', 'putting', 'putt_short', 'putt_long'];
   const rated = sliderKeys.filter((k) => typeof answers[k] === 'number');
   const avg = rated.length ? Math.round(rated.reduce((s, k) => s + answers[k], 0) / rated.length) : null;
   try {
