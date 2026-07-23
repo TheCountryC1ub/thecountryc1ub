@@ -81,8 +81,11 @@
   @media(max-width:960px){.paycol{position:static}}
   .paycard{background:var(--white);border:1px solid var(--border);border-radius:10px;box-shadow:0 26px 70px rgba(26,58,42,.12);overflow:hidden;position:relative}
   .paycard::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);z-index:2}
-  .order{padding:26px 26px 22px;border-bottom:1px solid var(--border);text-align:center}
-  .order__planname{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,2.6vw,1.4rem);letter-spacing:.04em;text-transform:uppercase;color:var(--green);margin-bottom:14px}
+  /* deep-green offer block — the eye lands here first against the cream page */
+  .order{padding:28px 26px 26px;border-bottom:1px solid rgba(0,0,0,.3);text-align:center;
+    background:radial-gradient(120% 100% at 50% 0%,rgba(61,122,84,.4) 0%,transparent 65%),
+    linear-gradient(180deg,var(--green) 0%,#14281B 100%)}
+  .order__planname{font-family:var(--serif);font-weight:600;font-size:clamp(1.2rem,2.6vw,1.4rem);letter-spacing:.04em;text-transform:uppercase;color:var(--cream);margin-bottom:14px}
 
   /* price block — echoes the .adv__price treatment from /story */
   .price-block{display:flex;flex-direction:column;align-items:center;gap:.3rem}
@@ -98,14 +101,14 @@
     50%{box-shadow:0 6px 18px -6px rgba(184,151,42,.85),0 0 26px rgba(212,184,74,.55)}}
   @media(prefers-reduced-motion:reduce){.price-block__tag,.price-block__tag::after{animation:none}}
   .price-block__row{display:inline-flex;align-items:baseline;gap:1rem;margin-top:.15rem}
-  .price-block__was{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.35rem);color:var(--text-4);
-    text-decoration:line-through;text-decoration-color:var(--gold-dim);text-decoration-thickness:2px}
-  .price-block__amt{font-family:var(--serif);font-size:clamp(2.1rem,5.5vw,2.7rem);line-height:1;color:var(--green)}
-  .price-block__amt small{font-size:.34em;color:var(--text-3);font-family:var(--sans);font-weight:400}
-  .price-block__note{font-size:.92rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-top:.4rem}
-  .price-block__cycle{font-family:var(--sans);font-weight:400;font-size:.85rem;color:var(--text-3);margin-top:.35rem}
-  .platform-note{margin-top:16px;padding-top:14px;border-top:1px dashed var(--border);font-size:.95rem;color:var(--text-2);text-align:center}
-  .platform-note b{color:var(--green);font-weight:600}
+  .price-block__was{font-family:var(--serif);font-size:clamp(1.1rem,2.6vw,1.35rem);color:rgba(244,240,230,.5);
+    text-decoration:line-through;text-decoration-color:var(--gold);text-decoration-thickness:2px}
+  .price-block__amt{font-family:var(--serif);font-size:clamp(2.1rem,5.5vw,2.7rem);line-height:1;color:var(--cream)}
+  .price-block__amt small{font-size:.34em;color:rgba(244,240,230,.65);font-family:var(--sans);font-weight:400}
+  .price-block__note{font-size:.92rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-light);margin-top:.4rem}
+  .price-block__cycle{font-family:var(--sans);font-weight:400;font-size:.85rem;color:rgba(244,240,230,.7);margin-top:.35rem}
+  .platform-note{margin-top:18px;padding-top:15px;border-top:1px dashed rgba(244,240,230,.25);font-size:.95rem;color:rgba(244,240,230,.85);text-align:center}
+  .platform-note b{color:#fff;font-weight:600}
 
   #payframe-holder{min-height:440px;background:#fff;position:relative}
   /* Heights sized for the SDK embed with product card hidden; payment-method
