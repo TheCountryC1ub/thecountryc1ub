@@ -13,6 +13,7 @@ const input = {
   checkout: resolve(__dirname, 'checkout.html'),
   'thank-you': resolve(__dirname, 'thank-you.html'),
   account: resolve(__dirname, 'account.html'),
+  free: resolve(__dirname, 'free.html'),
   dashboard: resolve(__dirname, 'dashboard.html'),
 };
 
