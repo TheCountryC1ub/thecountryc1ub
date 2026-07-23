@@ -61,43 +61,25 @@ function el(tag, cls, text) {
   return n;
 }
 
-/* "Ball in the cup" on every answer tap — a made-putt drop synthesized with
-   Web Audio (no file to load): three fast-tightening bounces, each a bright
-   plastic tick over a low hollow cup tone. Context is created lazily inside
-   the first click, which is the user gesture browsers require before sound. */
+/* Birdie chirp on every answer tap — two quick songbird "chips" synthesized
+   with Web Audio (no file to load): fast upward sine sweeps with a soft
+   attack and a little downward tail. Context is created lazily inside the
+   first click, which is the user gesture browsers require before sound. */
 let clickCtx = null;
 
-function cupKnock(t, vol, tickHz) {
-  // low hollow "cup body" thump
+function chirp(t, f0, f1, dur, vol) {
   const osc = clickCtx.createOscillator();
-  const og = clickCtx.createGain();
+  const g = clickCtx.createGain();
   osc.type = 'sine';
-  osc.frequency.setValueAtTime(205, t);
-  osc.frequency.exponentialRampToValueAtTime(150, t + 0.07);
-  og.gain.setValueAtTime(0.16 * vol, t);
-  og.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
-  osc.connect(og).connect(clickCtx.destination);
+  osc.frequency.setValueAtTime(f0, t);
+  osc.frequency.exponentialRampToValueAtTime(f1, t + dur * 0.6);
+  osc.frequency.exponentialRampToValueAtTime(f1 * 0.82, t + dur);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(vol, t + 0.012);
+  g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+  osc.connect(g).connect(clickCtx.destination);
   osc.start(t);
-  osc.stop(t + 0.1);
-
-  // bright plastic contact tick — short decaying noise burst through a bandpass
-  const n = Math.floor(clickCtx.sampleRate * 0.04);
-  const buf = clickCtx.createBuffer(1, n, clickCtx.sampleRate);
-  const data = buf.getChannelData(0);
-  for (let i = 0; i < n; i++) {
-    const fade = 1 - i / n;
-    data[i] = (Math.random() * 2 - 1) * fade * fade;
-  }
-  const src = clickCtx.createBufferSource();
-  src.buffer = buf;
-  const bp = clickCtx.createBiquadFilter();
-  bp.type = 'bandpass';
-  bp.frequency.value = tickHz;
-  bp.Q.value = 1.1;
-  const ng = clickCtx.createGain();
-  ng.gain.value = 0.38 * vol;
-  src.connect(bp).connect(ng).connect(clickCtx.destination);
-  src.start(t);
+  osc.stop(t + dur + 0.01);
 }
 
 function playClick() {
@@ -105,10 +87,9 @@ function playClick() {
     clickCtx = clickCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (clickCtx.state === 'suspended') clickCtx.resume();
     const t = clickCtx.currentTime;
-    // drop, rattle, settle — bounces get quieter, tighter, and tinnier
-    cupKnock(t, 1, 2100);
-    cupKnock(t + 0.09, 0.5, 2500);
-    cupKnock(t + 0.15, 0.26, 2900);
+    // "chip-chip" — second note a touch higher and shorter
+    chirp(t, 2300, 3900, 0.07, 0.09);
+    chirp(t + 0.085, 2700, 4300, 0.06, 0.07);
   } catch (_) { /* sound is decoration — never block the funnel */ }
 }
 
