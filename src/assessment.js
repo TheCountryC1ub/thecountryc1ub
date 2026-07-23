@@ -193,7 +193,7 @@ function fireConversion() {
   try {
     if (window.fbq) {
       window.fbq('track', 'AddToCart', {
-        value: 14.99,
+        value: 36,
         currency: 'USD',
         content_name: 'Elite Golf Consulting App',
         content_ids: ['elite-golf-consulting-app'],
@@ -205,8 +205,8 @@ function fireConversion() {
     if (window.gtag) {
       window.gtag('event', 'add_to_cart', {
         currency: 'USD',
-        value: 14.99,
-        items: [{ item_id: 'elite-golf-consulting-app', item_name: 'Elite Golf Consulting App', price: 14.99, quantity: 1 }],
+        value: 36,
+        items: [{ item_id: 'elite-golf-consulting-app', item_name: 'Elite Golf Consulting App', price: 36, quantity: 1 }],
       });
       window.gtag('event', 'assessment_complete', {
         goal: answers.goal,
