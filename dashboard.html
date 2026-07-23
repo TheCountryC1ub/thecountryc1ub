@@ -431,6 +431,7 @@ function sha256(str){
 function canon(path){
   var p = String(path).replace(/\.html$/, '');
   if (p.length > 1 && p.slice(-1) === '/') p = p.slice(0, -1);
+  if (p.slice(-6) === '/index') p = p.slice(0, -6) || '/'; /* /mentor/index.html -> /mentor */
   return p;
 }
 function tc(slug){ return slug.replace(/-/g, ' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); }); }
