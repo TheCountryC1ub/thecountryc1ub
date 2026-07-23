@@ -184,15 +184,16 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 .adv__pull--gold { color: var(--gold-dim); }
 
 /* quiz-arrival callout (revealed by story.js when ?from=assessment) */
-.adv__quiznote {
+.adv__body p.adv__quiznote {
   margin: 2rem 0;
   padding: 1.15rem 1.4rem;
   background: rgba(184, 151, 42, 0.08);
   border-left: 3px solid var(--gold);
   border-radius: 0 12px 12px 0;
-  color: var(--text-2);
+  color: var(--text);
+  font-weight: 500; /* heaviest DM Sans weight the page loads */
 }
-.adv__quiznote strong { color: var(--gold-dim); }
+.adv__body p.adv__quiznote strong { color: var(--gold-dim); }
 
 .adv__closeline {
   text-align: center;
