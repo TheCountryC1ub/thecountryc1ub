@@ -61,25 +61,54 @@ function el(tag, cls, text) {
   return n;
 }
 
-/* Soft "tock" on every answer tap — synthesized with Web Audio (no file to
-   load). Context is created lazily inside the first click, which is the user
-   gesture browsers require before allowing sound. */
+/* "Ball in the cup" on every answer tap — a made-putt drop synthesized with
+   Web Audio (no file to load): three fast-tightening bounces, each a bright
+   plastic tick over a low hollow cup tone. Context is created lazily inside
+   the first click, which is the user gesture browsers require before sound. */
 let clickCtx = null;
+
+function cupKnock(t, vol, tickHz) {
+  // low hollow "cup body" thump
+  const osc = clickCtx.createOscillator();
+  const og = clickCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(205, t);
+  osc.frequency.exponentialRampToValueAtTime(150, t + 0.07);
+  og.gain.setValueAtTime(0.16 * vol, t);
+  og.gain.exponentialRampToValueAtTime(0.0001, t + 0.09);
+  osc.connect(og).connect(clickCtx.destination);
+  osc.start(t);
+  osc.stop(t + 0.1);
+
+  // bright plastic contact tick — short decaying noise burst through a bandpass
+  const n = Math.floor(clickCtx.sampleRate * 0.04);
+  const buf = clickCtx.createBuffer(1, n, clickCtx.sampleRate);
+  const data = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) {
+    const fade = 1 - i / n;
+    data[i] = (Math.random() * 2 - 1) * fade * fade;
+  }
+  const src = clickCtx.createBufferSource();
+  src.buffer = buf;
+  const bp = clickCtx.createBiquadFilter();
+  bp.type = 'bandpass';
+  bp.frequency.value = tickHz;
+  bp.Q.value = 1.1;
+  const ng = clickCtx.createGain();
+  ng.gain.value = 0.38 * vol;
+  src.connect(bp).connect(ng).connect(clickCtx.destination);
+  src.start(t);
+}
+
 function playClick() {
   try {
     clickCtx = clickCtx || new (window.AudioContext || window.webkitAudioContext)();
     if (clickCtx.state === 'suspended') clickCtx.resume();
     const t = clickCtx.currentTime;
-    const osc = clickCtx.createOscillator();
-    const gain = clickCtx.createGain();
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(1900, t);
-    osc.frequency.exponentialRampToValueAtTime(720, t + 0.055);
-    gain.gain.setValueAtTime(0.11, t);
-    gain.gain.exponentialRampToValueAtTime(0.0001, t + 0.085);
-    osc.connect(gain).connect(clickCtx.destination);
-    osc.start(t);
-    osc.stop(t + 0.09);
+    // drop, rattle, settle — bounces get quieter, tighter, and tinnier
+    cupKnock(t, 1, 2100);
+    cupKnock(t + 0.09, 0.5, 2500);
+    cupKnock(t + 0.15, 0.26, 2900);
   } catch (_) { /* sound is decoration — never block the funnel */ }
 }
 
