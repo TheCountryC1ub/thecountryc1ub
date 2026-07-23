@@ -29,7 +29,7 @@ const STEPS = [
   { type: 'slider', key: 'chipping',  title: 'How would you rate your chipping?' },
   { type: 'slider', key: 'putting',   title: 'How would you rate your putting?' },
   { type: 'slider', key: 'putt_short', title: 'Short putts?', sub: 'Inside 6 feet' },
-  { type: 'slider', key: 'putt_long',  title: 'Long putts?', sub: 'Outside 25 feet' },
+  { type: 'slider', key: 'putt_long',  title: 'Lag Putting?', sub: 'Outside 25 feet' },
   {
     type: 'options', key: 'coaching',
     title: 'Have you gotten golf consulting before — from top players or a pro golfer?',
@@ -149,7 +149,7 @@ function show(i, dir = 1) {
       paint();
       const anchors = el('div', 'qz-anchors');
       anchors.append(el('span', null, 'Needs work'), el('span', null, 'Dialed in'));
-      const next = el('button', 'qz-btn', 'Continue');
+      const next = el('button', 'qz-btn', 'Continue for more birdies');
       next.type = 'button';
       next.addEventListener('click', () => {
         playClick();
