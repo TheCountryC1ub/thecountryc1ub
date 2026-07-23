@@ -62,14 +62,17 @@ async function commasSnapshot() {
     let known = true;
     for (const pid of productIds) {
       const [subsR, txR] = await Promise.all([
-        fetch('https://www.fanbasis.com/public-api/subscribers?per_page=1&product_id=' + encodeURIComponent(pid), opts),
+        fetch('https://www.fanbasis.com/public-api/subscribers?per_page=100&product_id=' + encodeURIComponent(pid), opts),
         fetch('https://www.fanbasis.com/public-api/checkout-sessions/transactions?per_page=100&product_id=' + encodeURIComponent(pid), opts),
       ]);
       if (!subsR.ok || !txR.ok) return null;
       const subs = (await subsR.json()).data;
       const tx = (await txR.json()).data;
       const txs = tx.transactions || [];
-      out.subscribers += subs.pagination?.total_items ?? 0;
+      /* the endpoint's total_items counts cancelled subs too (status= param is ignored) —
+         count truly active ones, or the run-rate tile reads $36 × ghosts */
+      out.subscribers += (subs.subscribers || [])
+        .filter((s) => String(s.subscription?.status || '').toLowerCase() === 'active').length;
       out.transactions += tx.pagination?.total_items ?? txs.length;
       for (const t of txs) {
         const v = t.amount_cents ?? (t.amount != null ? Math.round(parseFloat(t.amount) * 100) : NaN);
