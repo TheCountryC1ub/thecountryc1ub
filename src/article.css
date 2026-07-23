@@ -102,6 +102,18 @@ html:not(.js) [data-reveal] { opacity: 1 !important; transform: none !important;
 .bloghead__eyebrow { font-family: var(--sans); font-weight: 500; font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--gold-dim); margin-bottom: 1rem; }
 .bloghead__title { font-family: var(--serif); font-weight: 400; font-size: clamp(2.2rem, 5vw, 3.6rem); line-height: 1.1; color: var(--text); }
 .bloghead__dek { font-size: clamp(1.02rem, 1.6vw, 1.2rem); color: var(--text-2); margin: 1rem auto 0; max-width: 52ch; }
+.bloghead__actions { display: flex; justify-content: center; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.7rem; }
+.btn-meet {
+  display: inline-flex; align-items: center;
+  padding: 0.72rem 1.6rem;
+  font-family: var(--sans); font-weight: 500; font-size: 0.78rem;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--green); background: transparent;
+  border: 1px solid rgba(26,58,42,0.35); border-radius: 100px;
+  text-decoration: none;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease), border-color 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.btn-meet:hover { background: var(--green); color: var(--cream); border-color: var(--green); transform: translateY(-1px); }
 
 .bloglist { max-width: 1080px; margin: 0 auto; padding: clamp(2rem, 5vw, 3.5rem) clamp(1.3rem, 5vw, 2rem) 4rem; display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: clamp(1.5rem, 3vw, 2.4rem); }
 .postcard { display: flex; flex-direction: column; text-decoration: none; color: inherit; background: var(--white); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease); }
