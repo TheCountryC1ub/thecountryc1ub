@@ -238,6 +238,7 @@
         <button class="rbtn on" data-range="season">The Season</button>
         <button class="rbtn" data-range="28d">28 Days</button>
         <button class="rbtn" data-range="7d">7 Days</button>
+        <button class="rbtn" data-range="today">Today</button>
       </div>
     </div>
   </div>
@@ -263,7 +264,7 @@
     <div class="sec-head reveal">
       <span class="eyebrow">Tee to Cup</span>
       <h2>The walk from first look to member.</h2>
-      <p class="lede">Real people at each stage of the funnel — not raw event counts. Until launch day this includes our own practice swings.</p>
+      <p class="lede">Real people at each stage of the funnel — not raw event counts. Counts from before Jul 25 include our own practice swings.</p>
     </div>
     <div class="panel reveal">
       <div class="funnel" id="funnel"></div>
@@ -277,9 +278,27 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">The Round</span>
-      <h2>Visits, day by day.</h2>
+      <h2 id="dailyh2">Visits, day by day.</h2>
     </div>
     <div class="panel chart reveal" id="daily"></div>
+  </div>
+</section>
+
+<!-- ===== THE GALLERY (paid ads) ===== -->
+<section class="sec" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Gallery</span>
+      <h2>Who the ads bring through the gates.</h2>
+      <p class="lede">Chapter 2 tees off Jul 25. Every ad carries its own tag — the chips below are the exact tags — so each row is one ad's crowd, straight from Google Analytics. Same-day numbers settle for up to a day; server-side purchases can land as untagged.</p>
+    </div>
+    <div class="signals reveal" id="adtags" style="margin:0 0 16px">
+      <span class="sig">utm_source <b>meta</b></span>
+      <span class="sig">utm_medium <b>paid</b></span>
+      <span class="sig">utm_campaign <b>survey-egc</b></span>
+      <span class="sig">utm_content <b>{{ad.name}}</b></span>
+    </div>
+    <div class="panel rowlist reveal" id="ads"></div>
   </div>
 </section>
 
@@ -349,7 +368,7 @@
   <div class="wrap">
     <div class="sec-head reveal">
       <span class="eyebrow">The Tee Sheet</span>
-      <h2>What's between us and launch day.</h2>
+      <h2>The state of play.</h2>
       <p class="lede">Curated by hand — updated when the state of play changes, not by the feed.</p>
     </div>
     <div class="sheet reveal" id="sheet"></div>
@@ -361,7 +380,7 @@
   <div class="closerin">
     <div class="wrap">
       <h2>Twilight on the front nine.</h2>
-      <p>Next tee time: launch day.</p>
+      <p>Next tee time: Chapter 2, at dawn.</p>
     </div>
   </div>
 </div>
@@ -373,27 +392,11 @@
 <script>
 /* ===== The Clubhouse Report — live via /api/dash, snapshot fallback ===== */
 
-/* ---- snapshot (pulled Jul 19, 2026 — refresh by asking Claude) ---- */
-var SNAP_DATE = 'Jul 19, 2026';
+/* ---- snapshot (pulled Jul 24, 2026 — refresh by asking Claude) ---- */
+var SNAP_DATE = 'Jul 24, 2026';
 var SNAP = (function(){
-  var d28 = {
-    totals: [79, 170, 451, 299.2, 0.5471, 77],
-    daily: [['20260704',2,2],['20260705',3,3],['20260706',11,7],['20260707',37,26],['20260708',7,4],['20260709',5,4],['20260710',11,7],['20260711',7,5],['20260712',15,10],['20260713',34,11],['20260714',10,7],['20260715',11,6],['20260716',7,5],['20260717',8,7],['20260718',2,2]],
-    events: {page_view:451, begin_checkout:155, add_to_cart:153, membership_confirmed:58, first_visit:77, app_store_click:6, form_start:4, purchase:3, assessment_complete:2},
-    pages: [['/checkout',77,14],['/checkout.html',71,4],['/',57,32],['/thank-you',47,5],['/story',46,27],['/blog/elite-golf-consulting-foresome-partnership',29,12],['/assessment.html',19,1],['/blog',15,13],['/story.html',14,3],['/blog/overcoming-pressure-golf-confidence',11,5],['/partners',10,6],['/thank-you.html',10,1],['/account.html',8,1],['/blog/imagination-in-golf-see-the-shot',7,3],['/blog/break-golf-plateau-clear-intentions',6,3],['/blog/stop-overthinking-golf-take-action',6,5],['/assessment',5,3],['/blog/elite-golf-consulting-foresome-partnership.html',5,1],['/account',4,3],['/blog/',4,1]],
-    sources: [['(direct) / (none)',138],['ig / social',18],['(not set)',5],['facebook.com / referral',5],['l.instagram.com / referral',2],['replit.dev / referral',1],['lm.facebook.com / referral',1],['m.facebook.com / referral',1],['saas-data-1186.lightning.force.com / referral',1]]
-  };
-  return {
-    season: d28,
-    '28d': d28,
-    '7d': {
-      totals: [39, 94, 341, 411.8, 0.6277, 31],
-      daily: [['20260711',7,5],['20260712',15,10],['20260713',34,11],['20260714',10,7],['20260715',11,6],['20260716',7,5],['20260717',8,7],['20260718',2,2]],
-      events: {page_view:341, begin_checkout:155, add_to_cart:149, membership_confirmed:58, first_visit:31, app_store_click:6, form_start:4, purchase:3, assessment_complete:2},
-      pages: [['/checkout',77,14],['/checkout.html',71,4],['/thank-you',47,5],['/',27,12],['/story',25,18],['/assessment.html',19,1],['/story.html',13,2],['/blog/overcoming-pressure-golf-confidence',11,5],['/thank-you.html',10,1],['/account.html',8,1],['/blog/imagination-in-golf-see-the-shot',7,3],['/partners',6,6],['/assessment',5,3],['/account',4,3],['/blog',4,3],['/blog/',4,1],['/blog/elite-golf-consulting-foresome-partnership',2,3],['/blog/stop-overthinking-golf-take-action',1,1]],
-      sources: [['(direct) / (none)',73],['ig / social',10],['(not set)',5],['facebook.com / referral',3],['replit.dev / referral',1],['l.instagram.com / referral',1],['lm.facebook.com / referral',1],['m.facebook.com / referral',1],['saas-data-1186.lightning.force.com / referral',1]]
-    }
-  };
+  var dAll = {"totals":[118,243,628,422.6,0.4815,113],"daily":[["20260704",2,2],["20260705",3,3],["20260706",11,7],["20260707",37,26],["20260708",7,4],["20260709",5,4],["20260710",11,7],["20260711",7,5],["20260712",15,10],["20260713",34,11],["20260714",10,7],["20260715",11,6],["20260716",7,5],["20260717",8,7],["20260718",5,2],["20260719",5,3],["20260720",4,4],["20260722",14,10],["20260723",48,35]],"events":{"page_view":628,"session_start":256,"scroll":249,"user_engagement":217,"add_to_cart":189,"begin_checkout":187,"first_visit":113,"membership_confirmed":60,"click":31,"app_store_click":8,"assessment_complete":6,"purchase":5,"form_start":4,"bio_link_click":1},"pages":[["/",97,49],["/checkout",93,15],["/checkout.html",88,6],["/story",68,30],["/thank-you",49,5],["/assessment.html",34,3],["/assessment",32,24],["/blog/elite-golf-consulting-foresome-partnership",29,12],["/blog",20,14],["/story.html",18,5],["/partners",12,7],["/blog/overcoming-pressure-golf-confidence",11,5],["/thank-you.html",11,2],["/account.html",8,1],["/blog/imagination-in-golf-see-the-shot",7,3],["/blog/stop-overthinking-golf-take-action",7,6],["/account",6,5],["/blog/break-golf-plateau-clear-intentions",6,3],["/blog/elite-golf-consulting-foresome-partnership.html",5,1],["/free.html",5,1]],"sources":[["(direct) / (none)",171],["(not set)",28],["ig / social",19],["meta / paid",14],["facebook.com / referral",10],["google / cpc",8],["l.instagram.com / referral",4],["m.facebook.com / referral",4],["70c9fdb0-7b7c-4bf2-b6a7-6e0ecb29caca-00-5g8sqc1ifzof.sisko.replit.dev / referral",1],["lm.facebook.com / referral",1],["saas-data-1186.lightning.force.com / referral",1]],"ads":[{"campaign":"","content":"","srcmed":"google / cpc","sessions":8,"users":8,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 1 - Slider","srcmed":"meta / paid","sessions":7,"users":7,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 3 - Pillars","srcmed":"meta / paid","sessions":4,"users":4,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 2 - Letter Grade","srcmed":"meta / paid","sessions":3,"users":3,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0}]};
+  return { season: dAll, '28d': dAll, '7d': {"totals":[55,91,202,603.4,0.3626,45],"daily":[["20260716",7,5],["20260717",8,7],["20260718",5,2],["20260719",5,3],["20260720",4,4],["20260722",14,10],["20260723",48,35]],"events":{"page_view":202,"scroll":102,"user_engagement":90,"session_start":82,"first_visit":45,"add_to_cart":43,"begin_checkout":39,"click":9,"purchase":5,"assessment_complete":4,"app_store_click":3,"form_start":2,"membership_confirmed":2,"bio_link_click":1},"pages":[["/",46,24],["/assessment",27,22],["/story",27,11],["/checkout",20,7],["/checkout.html",20,3],["/assessment.html",15,2],["/blog",6,4],["/free.html",5,1],["/account",4,3],["/free",4,3],["/story.html",4,2],["/blog/imagination-in-golf-see-the-shot",3,2],["/partners",3,3],["/blog/best-free-golf-advice-away-from-course",2,2],["/blog/no-better-time-than-now-golf",2,2],["/mentor/ryan-byers",2,2],["/pro/matt-siporin",2,2],["/thank-you",2,1],["/blog/index.html",1,1],["/blog/stop-overthinking-golf-take-action",1,1]],"sources":[["(direct) / (none)",41],["(not set)",28],["meta / paid",14],["google / cpc",8],["facebook.com / referral",6],["ig / social",5],["m.facebook.com / referral",3],["l.instagram.com / referral",2],["saas-data-1186.lightning.force.com / referral",1]],"ads":[{"campaign":"","content":"","srcmed":"google / cpc","sessions":8,"users":8,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 1 - Slider","srcmed":"meta / paid","sessions":7,"users":7,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 3 - Pillars","srcmed":"meta / paid","sessions":4,"users":4,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 2 - Letter Grade","srcmed":"meta / paid","sessions":3,"users":3,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0}]}, today: {"totals":[35,48,119,949.6,0.1458,29],"hourly":[["11",1,1],["12",3,3],["13",4,3],["15",9,8],["17",19,17],["18",1,1],["2",1,1],["6",5,4],["7",2,1],["8",5,4]],"events":{"page_view":119,"scroll":70,"session_start":41,"user_engagement":40,"first_visit":29,"add_to_cart":26,"begin_checkout":22,"assessment_complete":4,"click":4,"app_store_click":1,"bio_link_click":1,"membership_confirmed":1},"pages":[["/assessment",27,22],["/",20,14],["/assessment.html",15,2],["/checkout.html",14,1],["/story",10,3],["/checkout",9,3],["/free.html",5,1],["/free",4,3],["/blog",3,2],["/story.html",3,1],["/blog/best-free-golf-advice-away-from-course",2,2],["/account",1,1],["/mentor",1,1],["/mentor/ryan-byers",1,1],["/pro",1,1],["/pro/matt-siporin",1,1],["/thank-you",1,1],["/thank-you.html",1,1]],"sources":[["(not set)",24],["meta / paid",14],["(direct) / (none)",13],["google / cpc",8],["facebook.com / referral",2],["l.instagram.com / referral",2],["m.facebook.com / referral",2]],"ads":[{"campaign":"","content":"","srcmed":"google / cpc","sessions":8,"users":8,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 1 - Slider","srcmed":"meta / paid","sessions":7,"users":7,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 3 - Pillars","srcmed":"meta / paid","sessions":4,"users":4,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0},{"campaign":"survey-egc","content":"Ad 2 - Letter Grade","srcmed":"meta / paid","sessions":3,"users":3,"assessment_complete":0,"add_to_cart":0,"begin_checkout":0,"purchase":0}]} };
 })();
 var SNAP_COMMAS = { subscribers: 0, transactions: 0, collected_cents: 0 };
 
@@ -402,17 +405,18 @@ var PAGE_NAMES = {
   '/': 'The Front Gate', '/story': 'The Story', '/checkout': 'The Pro Shop',
   '/thank-you': 'Welcome In', '/assessment': 'The Assessment', '/account': 'The Locker Room',
   '/partners': 'The Partners', '/blog': 'The Practice Range',
-  '/mentor': 'The Mentor — front page', '/pro': 'The Pro — front page'
+  '/mentor': 'The Mentor — front page', '/pro': 'The Pro — front page',
+  '/free': 'Start Here (free app)', '/delete-account': 'The Exit Door'
 };
 /* profile pages always shown on the Teaching Staff panel, even at zero walks;
    any new /mentor/* or /pro/* page found in the feed joins the list automatically */
 var PROFILE_PAGES = ['/mentor', '/mentor/ryan-byers', '/pro', '/pro/matt-siporin'];
-var RANGE_LABEL = { season: 'The Season · since Jul 1, 2026', '28d': 'Last 28 days', '7d': 'Last 7 days' };
-var RANGE_START = { season: '2026-07-01', '28d': -28, '7d': -7 };
+var RANGE_LABEL = { season: 'The Season · since Jul 1, 2026', '28d': 'Last 28 days', '7d': 'Last 7 days', today: 'Today · hole by hole' };
+var RANGE_START = { season: '2026-07-01', '28d': -28, '7d': -7, today: 0 };
 var PASS_HASH = 'b414ad87d5ccab8999b6580168efdf31a94e2d83953312337aacb67651df066e';
 var PASS_STORE = 'egc_dash_pass';
 
-var state = { range: 'season', pass: localStorage.getItem(PASS_STORE) || '', liveCache: {} };
+var state = { range: 'season', pass: localStorage.getItem(PASS_STORE) || '', liveCache: {}, todayTimer: 0 };
 
 /* ---- utils ---- */
 function esc(s){ var d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
@@ -487,7 +491,8 @@ function shape(raw){
     .sort(function(a, b){ return b.sessions - a.sessions; });
   function u(path){ var f = pages.filter(function(p){ return p.path === path; })[0]; return f ? f.users : 0; }
   return {
-    totals: raw.totals, daily: raw.daily, events: raw.events || {},
+    totals: raw.totals, daily: raw.daily || [], hourly: raw.hourly || [],
+    events: raw.events || {}, ads: raw.ads || [],
     pages: pages, sources: sources,
     funnel: [
       { lbl: 'On the grounds', sub: 'unique visitors', v: raw.totals[0], c: 'var(--g1)' },
@@ -496,7 +501,7 @@ function shape(raw){
       { lbl: 'Read the Story', sub: '/story', v: u('/story'), c: 'var(--g2b)' },
       { lbl: 'Into the Pro Shop', sub: '/checkout', v: u('/checkout'), c: 'var(--g3)' },
       { lbl: 'Reached the welcome mat', sub: '/thank-you', v: u('/thank-you'), c: 'var(--g4)' },
-      { lbl: 'Purchases', sub: 'test swings so far', v: (raw.events || {}).purchase || 0, c: 'var(--gold)' }
+      { lbl: 'Purchases', sub: 'purchase events', v: (raw.events || {}).purchase || 0, c: 'var(--gold)' }
     ]
   };
 }
@@ -567,8 +572,50 @@ function renderFunnel(m){
   }).join('');
 }
 
+function hourLbl(h){ return h === 0 ? '12a' : h < 12 ? h + 'a' : h === 12 ? '12p' : (h - 12) + 'p'; }
+
+function renderHourly(m){
+  var el = document.getElementById('daily');
+  var map = {};
+  (m.hourly || []).forEach(function(r){ map[Number(r[0])] = [Number(r[1]), Number(r[2])]; });
+  var hours = [];
+  for (var h = 0; h < 24; h++) hours.push({ h: h, sessions: map[h] ? map[h][0] : 0, users: map[h] ? map[h][1] : 0 });
+  var W = Math.max(el.clientWidth - (window.innerWidth > 700 ? 56 : 36), 280), H = 210, pad = { t: 26, b: 26 };
+  var max = Math.max.apply(null, hours.map(function(d){ return d.sessions; }).concat([1]));
+  var n = 24, gap = 4, bw = Math.max((W - gap * (n - 1)) / n, 3);
+  var ih = H - pad.t - pad.b;
+  var peak = hours.reduce(function(a, b){ return b.sessions > a.sessions ? b : a; }, hours[0]);
+  var parts = [];
+  [0.5, 1].forEach(function(f){
+    var y = pad.t + ih * (1 - f);
+    parts.push('<line x1="0" y1="' + y + '" x2="' + W + '" y2="' + y + '" stroke="rgba(244,240,230,.07)"/>' +
+      '<text x="' + W + '" y="' + (y - 5) + '" text-anchor="end" font-size="10" fill="#8E9A85" class="num">' + Math.round(max * f) + '</text>');
+  });
+  hours.forEach(function(d, i){
+    var x = i * (bw + gap), h2 = Math.max(d.sessions / max * ih, d.sessions ? 2 : 1.2);
+    var y = pad.t + ih - h2, r = Math.min(4, bw / 2, h2);
+    var col = d.sessions ? '#D4B84A' : 'rgba(244,240,230,.10)';
+    parts.push('<path d="M' + x + ',' + (y + h2) + ' L' + x + ',' + (y + r) + ' Q' + x + ',' + y + ' ' + (x + r) + ',' + y +
+      ' L' + (x + bw - r) + ',' + y + ' Q' + (x + bw) + ',' + y + ' ' + (x + bw) + ',' + (y + r) + ' L' + (x + bw) + ',' + (y + h2) + ' Z" fill="' + col + '"/>');
+    if (i % 4 === 0) parts.push('<text x="' + (x + bw / 2) + '" y="' + (H - 8) + '" text-anchor="middle" font-size="10" fill="#8E9A85">' + hourLbl(d.h) + '</text>');
+    if (d === peak && d.sessions) parts.push('<text x="' + Math.min(Math.max(x + bw / 2, 12), W - 12) + '" y="' + (y - 7) + '" text-anchor="middle" font-size="11" font-weight="600" fill="#F4F0E6" class="num">' + d.sessions + '</text>');
+    parts.push('<rect x="' + (x - gap / 2) + '" y="0" width="' + (bw + gap) + '" height="' + H + '" fill="transparent" data-i="' + i + '"/>');
+  });
+  el.innerHTML = '<svg viewBox="0 0 ' + W + ' ' + H + '" width="' + W + '" height="' + H + '" role="img" aria-label="Visits by hour today">' + parts.join('') + '</svg>';
+  el.querySelector('svg').addEventListener('mousemove', function(ev){
+    var t = ev.target.closest('rect[data-i]');
+    if (!t){ hideTip(); return; }
+    var d = hours[Number(t.getAttribute('data-i'))];
+    showTip('<b>' + hourLbl(d.h) + '–' + hourLbl((d.h + 1) % 24) + '</b> · ' + fmt(d.sessions) + ' visit' + (d.sessions === 1 ? '' : 's') + ' · ' + fmt(d.users) + ' golfer' + (d.users === 1 ? '' : 's'), ev.clientX, ev.clientY);
+  });
+  el.querySelector('svg').addEventListener('mouseleave', hideTip);
+}
+
 function renderDaily(m){
   var el = document.getElementById('daily');
+  var h2el = document.getElementById('dailyh2');
+  if (state.range === 'today'){ h2el.textContent = 'Today, hole by hole — hour by hour.'; renderHourly(m); return; }
+  h2el.textContent = 'Visits, day by day.';
   var days = fillDaily(m.daily, state.range);
   var W = Math.max(el.clientWidth - (window.innerWidth > 700 ? 56 : 36), 280), H = 210, pad = { t: 26, b: 26 };
   var max = Math.max.apply(null, days.map(function(d){ return d.sessions; }).concat([1]));
@@ -660,6 +707,33 @@ function renderProfiles(m){
   }).join('');
 }
 
+function renderAds(m){
+  var el = document.getElementById('ads');
+  function unset(s){ return !s || s === '(not set)' ? '' : s; }
+  var ads = (m.ads || []).filter(function(a){
+    return a.sessions || a.purchase || a.begin_checkout || a.assessment_complete || a.add_to_cart;
+  });
+  if (!ads.length){
+    el.innerHTML = '<div class="lrow"><span class="nm" style="color:var(--muted)">The gallery gathers when the ads tee off — no tagged visitors on the books yet.</span></div>';
+    return;
+  }
+  var top = ads[0].sessions || 1;
+  el.innerHTML = ads.map(function(a, i){
+    var content = unset(a.content), camp = unset(a.campaign);
+    var name = content || camp || ((a.srcmed || 'paid') + ' · untagged');
+    var bits = [];
+    if (a.srcmed && name.indexOf(a.srcmed) === -1) bits.push(a.srcmed);
+    if (content && camp) bits.push(camp);
+    bits.push(fmt(a.users) + ' golfer' + (a.users === 1 ? '' : 's'));
+    var stats = fmt(a.assessment_complete || 0) + ' ASSESS · ' + fmt(a.begin_checkout || 0) + ' CHECKOUT · ' +
+      fmt(a.purchase || 0) + (Number(a.purchase) === 1 ? ' BUY' : ' BUYS');
+    return '<div class="lrow"><span class="rk num">' + (i + 1) + '</span>' +
+      '<span class="nm">' + esc(name) + '<i>' + esc(bits.join(' · ')) + '</i>' +
+      '<span class="minibar"><i data-w="' + (a.sessions / top * 100) + '"></i></span></span>' +
+      '<span class="vv num">' + fmt(a.sessions) + '<span>' + stats + '</span></span></div>';
+  }).join('');
+}
+
 function renderShop(commas, live){
   var c = commas || SNAP_COMMAS;
   var collected = c.collected_cents == null ? '—' : '$' + fmt(Math.round(c.collected_cents / 100));
@@ -680,24 +754,24 @@ function renderShop(commas, live){
 }
 
 function renderSheet(){
+  /* [chip color, chip label, headline, detail] — curated by hand, updated Jul 24 2026 */
   var items = [
-    ['green', 'Payments LIVE — via The Country Club org', 'Switched Jul 21 (EGC-org approval stalled). Checkout, webhook + product guard, Zapier filter, pixels — all rebuilt on TCC rails in one day.'],
-    ['green', '$36 live test — passed end-to-end', 'Pay → membership active → welcome email → GA4/Meta purchase, all automatic. Refunded after. The machine works.'],
-    ['gold', 'Apple review — build 3.6', 'Submitted Jul 19 · manual release armed · demo account provided. Waiting on the review email. The only gate left.'],
-    ['dim', 'Refund auto-revoke', 'Webhook subscription needs the refund.created event added (Replit run queued) — refunds currently need a manual deactivate in /admin.'],
-    ['dim', 'Flip day', 'The order is sacred: Grandfather existing members → flip price to Free → release 3.6. Back-to-back.'],
-    ['dim', 'EGC-org switch-back', 'Someday-maybe: if Commas ever approves the EGC org, move sales back for clean receipt branding. Config preserved in git.']
+    ['green', 'In play', 'The app is LIVE — free on the App Store', 'Approved Jul 23 and flipped in the sacred order: grandfather existing members → price to Free → release 3.6. The gate is open.'],
+    ['green', 'In play', 'Payments — The Country Club org rails', 'Checkout, webhook + product guard, pixels, welcome email — proven end-to-end with a real $36 swing (refunded after). The machine works.'],
+    ['gold', 'On the tee', 'Chapter 2 — Meta ads go live Jul 25', '$100/day · 4 ads into the survey funnel → $36 checkout. The Gallery above keeps the tally. Kill rule: CTR under 1% after ~$50 an ad.'],
+    ['dim', 'Up next', 'Google Play (Android)', 'Submission underway since Jul 24 — store assets prepped, /delete-account live, Replit brief covers FCM + QA + the .aab build.'],
+    ['dim', 'Up next', 'Google Display retargeting', 'Creative kit ready. Build the campaign paused; launch when the assessment audience clears 100 golfers (~2 weeks of Meta traffic).'],
+    ['dim', 'Up next', 'Refund auto-revoke', 'refund.created now reaches the webhook — confirm the handler deactivates the membership (the socialfire test stayed active after its refund).']
   ];
-  var CHIP = { green: 'In play', gold: 'In review', dim: 'Up next' };
   document.getElementById('sheet').innerHTML = items.map(function(it){
-    return '<div class="item"><span class="chip ' + it[0] + '">' + CHIP[it[0]] + '</span>' +
-      '<span class="it">' + it[1] + '<i>' + it[2] + '</i></span></div>';
+    return '<div class="item"><span class="chip ' + it[0] + '">' + it[1] + '</span>' +
+      '<span class="it">' + it[2] + '<i>' + it[3] + '</i></span></div>';
   }).join('');
 }
 
 function renderAll(raw, live, commas){
   var m = shape(raw);
-  renderTiles(m); renderFunnel(m); renderDaily(m); renderSources(m); renderPages(m);
+  renderTiles(m); renderFunnel(m); renderDaily(m); renderAds(m); renderSources(m); renderPages(m);
   renderBlogTop(m); renderProfiles(m); renderShop(commas, live); renderSheet();
   setTimeout(function(){
     document.querySelectorAll('.minibar i').forEach(function(b){ b.style.width = b.getAttribute('data-w') + '%'; });
@@ -712,16 +786,20 @@ function renderAll(raw, live, commas){
 
 /* ---- data flow ---- */
 function load(){
-  renderAll(SNAP[state.range], false, null); /* instant paint from snapshot */
-  if (state.liveCache[state.range]){
-    var c = state.liveCache[state.range];
-    renderAll(c, true, c.commas);
-    return;
-  }
+  clearTimeout(state.todayTimer);
+  var c = state.liveCache[state.range];
+  if (c) renderAll(c, true, c.commas); /* instant paint from live cache */
+  else renderAll(SNAP[state.range], false, null); /* instant paint from snapshot */
+  /* Today is the launch-day watch view: never trust a stale cache, refetch every visit
+     and keep refreshing every 5 minutes while it's on screen */
+  if (c && state.range !== 'today') return;
   fetch('/api/dash?range=' + state.range + '&pass=' + encodeURIComponent(state.pass))
     .then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
-    .then(function(d){ state.liveCache[state.range] = d; renderAll(d, true, d.commas); })
-    .catch(function(){ /* snapshot already painted */ });
+    .then(function(d){
+      state.liveCache[state.range] = d; renderAll(d, true, d.commas);
+      if (state.range === 'today') state.todayTimer = setTimeout(load, 300000);
+    })
+    .catch(function(){ /* previous paint stands */ });
 }
 
 /* ---- gate ---- */

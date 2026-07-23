@@ -13,7 +13,17 @@
    Sibling of thecountryc1ub-site/api/stats.js, reshaped for EGC + ESM (repo is type:module). */
 
 const SEASON_START = '2026-07-01';
-const RANGES = { '7d': '7daysAgo', '28d': '28daysAgo', season: SEASON_START };
+const RANGES = { today: 'today', '7d': '7daysAgo', '28d': '28daysAgo', season: SEASON_START };
+
+/* Paid-traffic filter for The Gallery: the Chapter 2 Meta campaign by name, plus any
+   paid medium (covers the Google Display campaign later — and surfaces untagged cpc). */
+const ADS_FILTER = {
+  orGroup: { expressions: [
+    { filter: { fieldName: 'sessionCampaignName', stringFilter: { value: 'survey-egc' } } },
+    { filter: { fieldName: 'sessionMedium', inListFilter: { values: ['paid', 'cpc', 'display'] } } },
+  ] },
+};
+const ADS_EVENTS = ['assessment_complete', 'add_to_cart', 'begin_checkout', 'purchase'];
 
 let tokenCache = { value: null, exp: 0 };
 
@@ -33,6 +43,11 @@ async function accessToken() {
 }
 
 const norm = (s) => String(s || '').trim().toLowerCase().replace(/\s+/g, '');
+/* Meta's {{ad.name}} arrives URL-encoded ("Ad+1+-+Slider") — make it readable */
+const deplus = (s) => {
+  const t = String(s || '').replace(/\+/g, ' ');
+  try { return decodeURIComponent(t); } catch { return t; }
+};
 
 async function commasSnapshot() {
   const key = process.env.COMMAS_API_KEY;
@@ -81,38 +96,56 @@ export default async function handler(req, res) {
   if (!ready) { res.status(503).json({ error: 'not configured', snapshot: true }); return; }
   if (norm(q.pass) !== norm(pass)) { res.status(401).json({ error: 'not tonight' }); return; }
 
-  const startDate = RANGES[q.range] || RANGES.season;
-  const dateRanges = [{ startDate, endDate: 'today' }];
+  const range = q.range in RANGES ? q.range : 'season';
+  const isToday = range === 'today';
+  const dateRanges = [{ startDate: RANGES[range], endDate: 'today' }];
   try {
     const token = await accessToken();
     const pid = process.env.GA4_DASH_PROPERTY_ID || '544196923';
-    const batch = await fetch('https://analyticsdata.googleapis.com/v1beta/properties/' + pid + ':batchRunReports', {
+    const call = (requests) => fetch('https://analyticsdata.googleapis.com/v1beta/properties/' + pid + ':batchRunReports', {
       method: 'POST',
       headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        requests: [
-          { dateRanges,
-            metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' },
-                      { name: 'averageSessionDuration' }, { name: 'engagementRate' }, { name: 'newUsers' }] },
-          { dateRanges,
-            dimensions: [{ name: 'date' }],
-            metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
-            orderBys: [{ dimension: { dimensionName: 'date' } }], limit: 100 },
-          { dateRanges,
-            dimensions: [{ name: 'eventName' }],
-            metrics: [{ name: 'eventCount' }], limit: 100 },
-          { dateRanges,
-            dimensions: [{ name: 'pagePath' }],
-            metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
-            /* 100 so low-traffic /mentor + /pro rows reach the dashboard's profile panel */
-            orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }], limit: 100 },
-          { dateRanges,
-            dimensions: [{ name: 'sessionSourceMedium' }],
-            metrics: [{ name: 'sessions' }],
-            orderBys: [{ metric: { metricName: 'sessions' }, desc: true }], limit: 15 },
-        ],
-      }),
+      body: JSON.stringify({ requests }),
     });
+    /* batchRunReports caps at 5 requests — the Gallery reports ride a second, parallel batch */
+    const [batch, adsBatch] = await Promise.all([
+      call([
+        { dateRanges,
+          metrics: [{ name: 'activeUsers' }, { name: 'sessions' }, { name: 'screenPageViews' },
+                    { name: 'averageSessionDuration' }, { name: 'engagementRate' }, { name: 'newUsers' }] },
+        { dateRanges,
+          /* the day view charts hour-by-hour; longer ranges chart day-by-day */
+          dimensions: [{ name: isToday ? 'hour' : 'date' }],
+          metrics: [{ name: 'sessions' }, { name: 'activeUsers' }],
+          orderBys: [{ dimension: { dimensionName: isToday ? 'hour' : 'date' } }], limit: 100 },
+        { dateRanges,
+          dimensions: [{ name: 'eventName' }],
+          metrics: [{ name: 'eventCount' }], limit: 100 },
+        { dateRanges,
+          dimensions: [{ name: 'pagePath' }],
+          metrics: [{ name: 'screenPageViews' }, { name: 'activeUsers' }],
+          /* 100 so low-traffic /mentor + /pro rows reach the dashboard's profile panel */
+          orderBys: [{ metric: { metricName: 'screenPageViews' }, desc: true }], limit: 100 },
+        { dateRanges,
+          dimensions: [{ name: 'sessionSourceMedium' }],
+          metrics: [{ name: 'sessions' }],
+          orderBys: [{ metric: { metricName: 'sessions' }, desc: true }], limit: 15 },
+      ]),
+      call([
+        { dateRanges,
+          dimensions: [{ name: 'sessionCampaignName' }, { name: 'sessionManualAdContent' }, { name: 'sessionSourceMedium' }],
+          metrics: [{ name: 'sessions' }, { name: 'totalUsers' }],
+          dimensionFilter: ADS_FILTER,
+          orderBys: [{ metric: { metricName: 'sessions' }, desc: true }], limit: 50 },
+        { dateRanges,
+          dimensions: [{ name: 'sessionCampaignName' }, { name: 'sessionManualAdContent' }, { name: 'sessionSourceMedium' }, { name: 'eventName' }],
+          metrics: [{ name: 'eventCount' }],
+          dimensionFilter: { andGroup: { expressions: [
+            ADS_FILTER,
+            { filter: { fieldName: 'eventName', inListFilter: { values: ADS_EVENTS } } },
+          ] } }, limit: 200 },
+      ]),
+    ]);
     if (!batch.ok) throw new Error('GA4 API ' + batch.status + ': ' + (await batch.text()).slice(0, 300));
     const reports = (await batch.json()).reports || [];
     const rows = (i) => reports[i]?.rows || [];
@@ -123,15 +156,41 @@ export default async function handler(req, res) {
     const events = {};
     for (const r of rows(2)) events[dims(r)[0]] = mets(r)[0];
 
+    /* merge the two Gallery reports into one row per (campaign, ad content, source) */
+    let ads = [];
+    if (adsBatch.ok) {
+      const areports = (await adsBatch.json()).reports || [];
+      const arows = (i) => areports[i]?.rows || [];
+      const admap = new Map();
+      const blank = (camp, content, srcmed) => ({
+        campaign: camp, content: deplus(content), srcmed,
+        sessions: 0, users: 0, assessment_complete: 0, add_to_cart: 0, begin_checkout: 0, purchase: 0,
+      });
+      for (const r of arows(0)) {
+        const [camp, content, srcmed] = dims(r), [sessions, users] = mets(r);
+        const k = camp + '|' + content + '|' + srcmed;
+        admap.set(k, Object.assign(blank(camp, content, srcmed), { sessions, users }));
+      }
+      for (const r of arows(1)) {
+        const [camp, content, srcmed, ev] = dims(r), [count] = mets(r);
+        const k = camp + '|' + content + '|' + srcmed;
+        if (!admap.has(k)) admap.set(k, blank(camp, content, srcmed));
+        admap.get(k)[ev] = count;
+      }
+      ads = [...admap.values()].sort((a, b) => b.sessions - a.sessions);
+    }
+
     res.setHeader('Cache-Control', 'no-store');
     res.status(200).json({
       generatedAt: new Date().toISOString(),
-      range: q.range in RANGES ? q.range : 'season',
+      range,
       totals: t,
-      daily: rows(1).map((r) => [dims(r)[0], ...mets(r)]),
+      daily: isToday ? [] : rows(1).map((r) => [dims(r)[0], ...mets(r)]),
+      hourly: isToday ? rows(1).map((r) => [dims(r)[0], ...mets(r)]) : [],
       events,
       pages: rows(3).map((r) => [dims(r)[0], ...mets(r)]),
       sources: rows(4).map((r) => [dims(r)[0], mets(r)[0]]),
+      ads,
       commas: await commasSnapshot(),
     });
   } catch (e) {
